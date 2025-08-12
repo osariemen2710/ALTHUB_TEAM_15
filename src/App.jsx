@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+
 import './App.css'
-import Signup from './Components/RegistrationPage'
+import Signup from './Components/registration/SignUp.jsx'
+
 
   export default function App() {
   return (
