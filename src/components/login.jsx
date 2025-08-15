@@ -53,7 +53,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-binit-green focus:border-binit-green sm:text-sm"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -74,7 +74,7 @@ const Login = () => {
                   type="password"
                   name="password"
                   id="password"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-binit-green focus:border-binit-green sm:text-sm"
                   placeholder="**********"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -89,14 +89,14 @@ const Login = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-binit-green focus:ring-binit-green border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember for 30 days
                 </label>
               </div>
               <div className="text-sm">
-                <a href="/forgot-password" className="font-medium text-green-600 hover:text-green-500">
+                <a href="/forgot-password" className="font-medium text-binit-green hover:text-binit-green">
                   Forgot password
                 </a>
               </div>
@@ -105,10 +105,10 @@ const Login = () => {
             {/* Log In button */}
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-binit-green hover:bg-binit-green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-binit-green"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LogIn className="h-5 w-5 text-green-500 group-hover:text-green-400" aria-hidden="true" />
+                <LogIn className="h-5 w-5 text-binit-green group-hover:text-binit-green" aria-hidden="true" />
               </span>
               Log In
             </button>
@@ -138,7 +138,7 @@ const Login = () => {
           {/* Sign up link */}
           <div className="text-center text-sm text-gray-500">
             Don't have an account?{' '}
-            <a href="/signup" className="font-medium text-green-600 hover:text-green-500">
+            <a href="/signup" className="font-medium text-binit-green hover:text-binit-green">
               Sign up
             </a>
           </div>

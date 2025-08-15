@@ -5,8 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",  // scan all source files
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'binit-green': '#228B22',
+      },
+    },
   },
   plugins: [],
 }
-

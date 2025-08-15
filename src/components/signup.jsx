@@ -88,7 +88,7 @@ export default function SignUp() {
                   placeholder="Enter your name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 outline-none"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-binit-green outline-none"
                 />
               </div>
               {errors.name && (
@@ -112,7 +112,7 @@ export default function SignUp() {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 outline-none"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-binit-green outline-none"
                 />
               </div>
               {errors.email && (
@@ -136,7 +136,7 @@ export default function SignUp() {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 outline-none"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-binit-green outline-none"
                 />
               </div>
               {errors.password && (
@@ -160,7 +160,7 @@ export default function SignUp() {
                   placeholder="Confirm password"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 outline-none"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-binit-green outline-none"
                 />
               </div>
               {errors.confirmPassword && (
@@ -170,7 +170,7 @@ export default function SignUp() {
 
 
             {/* Buttons */}
-            <button type="submit" className="w-full bg-green-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors">
+            <button type="submit" className="w-full bg-binit-green text-white py-2 rounded-lg text-sm font-medium hover:bg-binit-green transition-colors">
               Sign up
             </button>
 
@@ -187,7 +187,7 @@ export default function SignUp() {
             {/* Login Link */}
             <div className="text-center text-xs text-gray-600">
               Already have an account?{" "}
-              <a href="/login" className="text-green-500 hover:text-green-600 font-medium">Login</a>
+              <a href="/login" className="text-binit-green hover:text-binit-green font-medium">Login</a>
             </div>
           </form>
         </div>
