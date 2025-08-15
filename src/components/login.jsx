@@ -7,17 +7,37 @@ import binitLogo from '../assets/binitLogo.svg';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const handleInputChange = (e, field) => {
+    if (field === 'email') {
+        setEmail(e.target.value);
+    } else if (field === 'password') {
+        setPassword(e.target.value);
+    }
+
+    if (errors[field]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: ''
+      }));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newErrors = {};
     // Basic validation
-    if (!email || !password) {
-      alert('Please enter both email and password.');
-      return;
+    if (!email) newErrors.email = 'Email is required';
+    if (!password) newErrors.password = 'Password is required';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+        // Assuming you'd send this to a backend
+        console.log('Logging in with:', { email, password });
+        // e.g., loginUser({ email, password });
     }
-    // Assuming you'd send this to a backend
-    console.log('Logging in with:', { email, password });
-    // e.g., loginUser({ email, password });
   };
 
   return (
@@ -56,9 +76,12 @@ const Login = () => {
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-binit-green focus:border-binit-green sm:text-sm"
                   placeholder="Enter your email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => handleInputChange(e, 'email')}
                 />
               </div>
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+              )}
             </div>
 
             {/* Password input */}
@@ -77,9 +100,12 @@ const Login = () => {
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-binit-green focus:border-binit-green sm:text-sm"
                   placeholder="**********"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => handleInputChange(e, 'password')}
                 />
               </div>
+              {errors.password && (
+                <p className="mt-1 text-xs text-red-500">{errors.password}</p>
+              )}
             </div>
 
             {/* Remember me & forgot password */}
