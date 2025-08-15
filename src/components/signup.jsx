@@ -54,8 +54,8 @@ export default function SignUp() {
       <div className="w-full md:w-1/2 flex justify-center items-center px-6 md:px-12 py-12 md:py-0 order-2 md:order-1">
         <div className="max-w-md w-full">
           {/* Logo and Header */}
-          <div className="flex flex-col items-start mb-6">
-            <div className="mb-4">
+          <div className="flex flex-col items-start mb-4">
+            <div className="mb-2">
               <img
                 src={binitLogo}
                 alt="Binit Logo"
