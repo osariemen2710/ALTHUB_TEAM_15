@@ -1,13 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
+ content: [
     "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}"
+    "./src/**/*.{js,ts,jsx,tsx}",  // scan all source files
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'binit-green': '#228B22',
+      },
+    },
   },
- plugins: [require("tailwindcss-animate")], 
+  plugins: [],
 }
-
-
