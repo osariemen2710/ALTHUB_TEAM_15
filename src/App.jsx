@@ -7,18 +7,35 @@ import SpecialRequirements from "../src/pages/SpecialRequirements.jsx";
 import ServiceProvider from "../src/pages/ServiceProvider.jsx";
 import Preview from "../src/pages/Preview.jsx";
 import Select from "../src/pages/Select.jsx";
+import Dashboard from './components/dashbord';
+import SignUp from './components/signup';
+import Login from './components/login';
+import ForgotPassword from './components/forgotpassword';
+import ScheduleSuccess from "./pages/ScheduleSuccess";
+import BillPayment from "./pages/BillPayment";
+import NotificationPreferencesPage from "./pages/Notification.jsx";
 
  function App () { 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<CreateSchedule />} />
+      <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+     
+       <Route path="/report" element={<div>Report Illegal Dump</div>} />
+       <Route path="/login" element={<Login />} />
+       <Route path="/signup" element={<SignUp />} />
+       <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/schedule" element={<CreateSchedule />} />
         <Route path="/dates" element={<Dates />} />
         <Route path="/waste" element={<WasteTypes />} />
         <Route path="/special" element={<SpecialRequirements />} />
         <Route path="/service" element={<ServiceProvider />} />
         <Route path="/preview" element={<Preview />} />
         <Route path="/select" element={<Select />} />
+        <Route path="/success" element={<ScheduleSuccess/>} />
+        <Route path="/bill-payment" element={<BillPayment/>} />
+        <Route path="/notifications" element={<NotificationPreferencesPage/>} />
         
     </Routes>
     </Router>

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import binitLogo from '../assets/binitLogo.svg';
 import { User, Mail, Lock } from "lucide-react";
+import binitImage from '../assets/binit-image.jpg';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -170,7 +171,7 @@ export default function SignUp() {
 
 
             {/* Buttons */}
-            <button type="submit" className="w-full bg-binit-green text-white py-2 rounded-lg text-sm font-medium hover:bg-binit-green transition-colors">
+            <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600">
               Sign up
             </button>
 
@@ -187,9 +188,10 @@ export default function SignUp() {
             {/* Login Link */}
             <div className="text-center text-xs text-gray-600">
               Already have an account?{" "}
-              <a href="/login" className="text-binit-green hover:text-binit-green font-medium">Login</a>
+              <a href="/login" className="font-medium text-green-600 hover:text-green-700">Login</a>
             </div>
           </form>
+          
         </div>
       </div>
 
@@ -197,9 +199,8 @@ export default function SignUp() {
       <div className="w-full md:w-1/2 relative h-48 md:h-auto order-1 md:order-2">
         <div 
           className="w-full h-full bg-cover bg-center"
-          style={{ backgroundImage: "url('/binit-image.jpg')", }}
+          style={{ backgroundImage: `url(${binitImage})` }}
         >
-          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         </div>
       </div>
     </div>

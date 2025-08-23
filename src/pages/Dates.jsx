@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import ConnectingLines from "../components/ConnectingLines.jsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/navigation.jsx";
 
 const Dates = () => {
   const navigate = useNavigate();
@@ -91,156 +92,178 @@ const Dates = () => {
       frequency,
       timeWindow: selectedTime,
       startDate: selectedDate,
-      address: address.trim(),
+      location: address.trim(),
       isWednesdaySpecial: checked,
       completedAt: new Date().toISOString(),
     };
 
-    navigate("/waste", { state: stepData });
+    navigate("/waste", { state: { scheduleData: stepData } });
+  };
+
+  const handleLineClick = (step) => {
+    switch (step) {
+      case 1:
+        navigate("/schedule");
+        break;
+      case 2:
+        navigate("/dates");
+        break;
+      case 3:
+        navigate("/waste");
+        break;
+      case 4:
+        navigate("/special");
+        break;
+      case 5:
+        navigate("/success");
+        break;
+      default:
+        break;
+    }
   };
 
   return (
-    <div className="bg-white font-roboto min-h-screen flex flex-col lg:flex-row">
-      <main className="flex-1 p-4 lg:p-8">
-        <ConnectingLines currentStep={2} />
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
+      <Sidebar />
+      <main className="flex-1 p-6 md:p-8 lg:p-12 overflow-y-auto">
+        <div className="max-w-4xl mx-auto">
+          <ConnectingLines currentStep={2} onLineClick={handleLineClick} />
 
-        <p className="mt-6 ml-28 text-sm md:text-base">
-          Step 2 of 5: Choose Schedule Type
-        </p>
-
-        <div className="mt-10 w-full md:w-3/4 lg:w-2/3 ml-14">
-          <h5 className="font-semibold text-lg md:text-xl lg:text-2xl mb-3">
-            Collection Day(s)
-          </h5>
-
-          <div className="flex flex-wrap gap-2 md:gap-14">
-            {allDays.map((day) => (
-              <button
-                key={day}
-                type="button"
-                onClick={() => {
-                  if (!checked) {
-                    setSelectedDay(day);
-                    setErrors((prev) => ({ ...prev, day: undefined }));
-                  }
-                }}
-                className={`px-6 py-4 text-sm md:text-base rounded-lg border transition-colors ${
-                  selectedDay === day
-                    ? "bg-[#228B22] text-white border-black"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                } ${
-                  checked ? "cursor-not-allowed opacity-50" : "cursor-pointer"
-                }`}
-                disabled={checked}
-              >
-                {day}
-              </button>
-            ))}
-          </div>
-          {errors.day && (
-            <p className="mt-2 text-sm text-red-500">{errors.day}</p>
-          )}
-
-          <label className="inline-flex items-center text-green-500 space-x-2 mt-4 text-sm cursor-pointer">
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={handleCheckboxChange}
-              className="form-checkbox h-4 w-4 text-green-500"
-            />
-          </label>
-
-          {selectedDay && (
-            <p className="mt-4 text-green-500 font-medium">
-              {dayMessages[dayNameMap[selectedDay]]}
+          <div className="mt-12">
+            <p className="text-sm text-gray-500 mb-2">
+              Step 2 of 5
             </p>
-          )}
-        </div>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">
+              Choose Schedule Type
+            </h2>
 
-        <form
-          onSubmit={handleSubmit}
-          className="mt-10 ml-14 w-full md:w-3/4 lg:w-2/3 space-y-9"
-        >
-          {/* Time Window */}
-          <div>
-            <label className="block mb-3 text-2xl">Preferred Time Window</label>
-            <select
-              value={selectedTime}
-              onChange={(e) => {
-                setSelectedTime(e.target.value);
-                setErrors((prev) => ({ ...prev, time: undefined }));
-              }}
-              className={`border rounded px-4 py-4 w-3/5 md:w-3/5 focus:outline-none focus:ring-2 focus:ring-green-500 ${
-                errors.time ? "border-red-500" : "border-gray-300"
-              }`}
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">Collection Day(s)</h3>
+                <div className="flex flex-wrap gap-3">
+                  {allDays.map((day) => (
+                    <button
+                      key={day}
+                      type="button"
+                      onClick={() => {
+                        if (!checked) {
+                          setSelectedDay(day);
+                          setErrors((prev) => ({ ...prev, day: undefined }));
+                        }
+                      }}
+                      className={`px-4 py-3 text-sm rounded-lg border transition-all duration-200 ${
+                        selectedDay === day
+                          ? "bg-green-600 text-white border-green-600 shadow-sm"
+                          : "bg-white text-gray-800 border-gray-300 hover:border-green-500"
+                      } ${
+                        checked ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+                      }`}
+                      disabled={checked}
+                    >
+                      {day}
+                    </button>
+                  ))}
+                </div>
+                {errors.day && (
+                  <p className="mt-2 text-sm text-red-600">{errors.day}</p>
+                )}
+                <label className="flex items-center text-green-600 space-x-2 mt-4 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={handleCheckboxChange}
+                    className="form-checkbox h-4 w-4 text-green-600 rounded border-gray-300 focus:ring-green-500"
+                  />
+                  <span>Special offer: Every Wednesday!</span>
+                </label>
+                {selectedDay && (
+                  <p className="mt-4 text-green-700 bg-green-50 p-3 rounded-lg">
+                    {dayMessages[dayNameMap[selectedDay]]}
+                  </p>
+                )}
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block mb-2 text-base font-medium text-gray-700">Preferred Time Window</label>
+                  <select
+                    value={selectedTime}
+                    onChange={(e) => {
+                      setSelectedTime(e.target.value);
+                      setErrors((prev) => ({ ...prev, time: undefined }));
+                    }}
+                    className={`border rounded-lg px-4 py-3 w-full md:w-2/3 focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                      errors.time ? "border-red-500" : "border-gray-300"
+                    }`}
+                  >
+                    <option value="">-- Choose a time --</option>
+                    {times.map((time) => (
+                      <option key={time} value={time}>
+                        {time}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.time && (
+                    <p className="mt-1 text-red-600 text-sm">{errors.time}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-base font-medium text-gray-700">Start Date</label>
+                  <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => {
+                      setSelectedDate(e.target.value);
+                      setErrors((prev) => ({ ...prev, date: undefined }));
+                    }}
+                    className={`border rounded-lg px-4 py-3 w-full md:w-2/3 focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                      errors.date ? "border-red-500" : "border-gray-300"
+                    }`}
+                  />
+                  {errors.date && (
+                    <p className="mt-1 text-red-600 text-sm">{errors.date}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block mb-2 text-base font-medium text-gray-700">Collection Address</label>
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                      setErrors((prev) => ({ ...prev, address: undefined }));
+                    }}
+                    placeholder="Enter your full address"
+                    className={`border rounded-lg px-4 py-3 w-full md:w-2/3 focus:outline-none focus:ring-2 focus:ring-green-500 ${
+                      errors.address ? "border-red-500" : "border-gray-300"
+                    }`}
+                  />
+                  {errors.address && (
+                    <p className="mt-1 text-red-600 text-sm">{errors.address}</p>
+                  )}
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div className="mt-12 flex justify-between">
+            <button
+              onClick={() => navigate("/schedule")}
+              className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center gap-2 hover:bg-gray-300 transition-colors"
             >
-              <option value="">-- Choose a time --</option>
-              {times.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
-            {errors.time && (
-              <p className="mt-1 text-red-500 text-sm">{errors.time}</p>
-            )}
+              <ArrowLeft className="w-5 h-5" />
+              <span>Back</span>
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="bg-green-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center gap-2 hover:bg-green-700 transition-colors"
+            >
+              <span>Next Step</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
-
-          {/* Start Date */}
-          <div>
-            <label className="block mb-3 text-2xl">Start Date</label>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => {
-                setSelectedDate(e.target.value);
-                setErrors((prev) => ({ ...prev, date: undefined }));
-              }}
-              className={`border rounded px-4 py-4 w-3/5 md:w-3/5 focus:outline-none focus:ring-2 focus:ring-green-500 ${
-                errors.date ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.date && (
-              <p className="mt-1 text-red-500 text-sm">{errors.date}</p>
-            )}
-          </div>
-
-          {/* Address */}
-          <div>
-            <label className="block mb-3 text-2xl">Collection Address</label>
-            <input
-              type="text"
-              value={address}
-              onChange={(e) => {
-                setAddress(e.target.value);
-                setErrors((prev) => ({ ...prev, address: undefined }));
-              }}
-              placeholder="Enter address here"
-              className={`border rounded px-4 py-4 w-3/5 md:w-3/5 focus:outline-none focus:ring-2 focus:ring-green-500 ${
-                errors.address ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.address && (
-              <p className="mt-1 text-red-500 text-sm">{errors.address}</p>
-            )}
-          </div>
-        </form>
-
-        <div className="mt-8 flex flex-row justify-between gap-4 mx-4 sm:mx-8 lg:mx-12">
-          <button onClick={() => navigate("/")} className="p-2">
-            <ArrowLeft className="w-5 h-5 text-[#228B22]" />
-          </button>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              if (validateForm()) {
-                navigate("/waste");
-              }
-            }}
-            className="p-2"
-          >
-            <ArrowRight className="w-5 h-5 text-[#228B22]" />
-          </button>
         </div>
       </main>
     </div>
