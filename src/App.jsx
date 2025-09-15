@@ -14,6 +14,8 @@ import ForgotPassword from './components/forgotpassword';
 import ScheduleSuccess from "./pages/ScheduleSuccess";
 import BillPayment from "./pages/BillPayment";
 import NotificationPreferencesPage from "./pages/Notification.jsx";
+import IllegalDumping from "./components/illegalDumping";
+import Report from './components/report';
 
  function App () { 
   return (
@@ -22,7 +24,7 @@ import NotificationPreferencesPage from "./pages/Notification.jsx";
       <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
      
-       <Route path="/report" element={<div>Report Illegal Dump</div>} />
+       <Route path="/report" element={<IllegalDumping />} />
        <Route path="/login" element={<Login />} />
        <Route path="/signup" element={<SignUp />} />
        <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -36,6 +38,7 @@ import NotificationPreferencesPage from "./pages/Notification.jsx";
         <Route path="/success" element={<ScheduleSuccess/>} />
         <Route path="/bill-payment" element={<BillPayment/>} />
         <Route path="/notifications" element={<NotificationPreferencesPage/>} />
+        <Route path="/history" element={<Report/>} />
         
     </Routes>
     </Router>
