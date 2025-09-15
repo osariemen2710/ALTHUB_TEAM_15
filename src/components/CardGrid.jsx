@@ -1,0 +1,67 @@
+import { useState } from "react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "../components/ui/card";
+
+const CardGrid = ({ onCardClick }) => {
+  const [selected, setSelected] = useState(null);
+
+  const options = [
+    {
+      id: 1,
+      title: "Daily",
+      description: "Pickup every day",
+      amount: "₦300/day",
+    },
+    {
+      id: 2,
+      title: "Weekly",
+      description: "Pickup once a week",
+      amount: "₦2800/day",
+    },
+    {
+      id: 3,
+      title: "Biweekly",
+      description: "Pickup every 2 weeks",
+      amount: "₦1400/day",
+    },
+    {
+      id: 4,
+      title: "Monthly",
+      description: "Pickup once a month",
+      amount: "₦4200/day",
+    },
+  ];
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mt-4 w-full">
+      {options.map((option) => (
+        <Card
+          key={option.id}
+          onClick={() => {
+            setSelected(option.id);
+            if (onCardClick) onCardClick(option);
+          }}
+          className={`cursor-pointer transition-transform transform hover:scale-105 w-[350px] h-[180px] sm:w-[400px] ${
+            selected === option.id
+              ? "border-green-500 shadow-lg"
+              : "border-gray-200"
+          }`}
+        >
+          <CardHeader>
+            <CardTitle className="text-lg">{option.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600">{option.description}</p>
+            <p className="text-sm font-semibold">{option.amount}</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+};
+
+export default CardGrid;
