@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './index.css';
 import CreateSchedule from "../src/pages/CreateSchedule.jsx";
@@ -42,6 +43,7 @@ import Report from './components/report';
         
     </Routes>
     </Router>
+
   );
 }
 
