@@ -1,0 +1,18 @@
+/* src/components/Dashboard.css
+  REPLACED: All layout and component styles should use Tailwind utility classes in JSX.
+  This file intentionally keeps only what is strictly necessary for font loading and
+  tiny helpers. Global Tailwind directives live in `src/index.css`.
+*/
+
+/* Load Poppins from Google Fonts (index.css already imports many fonts; this is safe to keep)
+  You can remove this import if you prefer the single entry in `src/index.css`. */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Minimal helper classes only; prefer Tailwind classes in your React JSX */
+.dashboard-hidden {
+  display: none;
+}
+
+/* Example: small utility you can still reference from JSX if needed:
+  <div className="dashboard-hidden md:block">...</div>
+*/
