@@ -189,11 +189,8 @@ const ForgotPassword = () => {
       </div>
 
       {/* Right side: Image background, hidden on small screens */}
-      <div
-        className="hidden lg:block lg:w-1/2 bg-cover bg-center"
-        style={{ backgroundImage: "url('/binit-image.jpg')" }}
-      >
-        <div className="w-full h-full bg-black bg-opacity-10"></div>
+      <div className="hidden lg:block lg:w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('/binit-image.jpg')" }}>
+        <div className="w-full h-full bg-opacity-10"></div>
       </div>
     </div>
   );
