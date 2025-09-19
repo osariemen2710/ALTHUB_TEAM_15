@@ -158,7 +158,7 @@ const IllegalDumping = () => {
 
         {/* Map Section */}
         <div className="relative w-full h-[calc(100vh-180px)] rounded-lg shadow-lg overflow-hidden">
-          <LoadScript googleMapsApiKey="AIzaSyBT4Jx7RBIGfCH5Dvst0Pqo7fYfbX26egQ"  libraries={["places"]}>
+          <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}  libraries={["places"]}>
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
