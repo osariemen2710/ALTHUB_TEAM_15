@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "./navigation";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useUser } from "../context/UserContext";
 
 const activeData = [
   { name: 'Jan', General: 280, Organic: 540, Recyclables: 180 },
@@ -21,6 +22,9 @@ const StatCard = ({ title, value, unit }) => (
 
 const Dashboard = ({ isEmpty }) => {
   const chartData = isEmpty ? [] : activeData;
+  const { user } = useUser();
+  const firstName = user?.name?.split(' ')[0];
+
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-x-hidden">
       {/* Sidebar on the left */}
@@ -30,7 +34,7 @@ const Dashboard = ({ isEmpty }) => {
       <div className="flex-1 p-8 overflow-y-auto w-full h-screen bg-gray-50">
         <main className="p-0">
           <div className="mb-8">
-            <h2 className="text-2xl text-gray-800 font-medium mb-1">Welcome back, Jessica</h2>
+            <h2 className="text-2xl text-gray-800 font-medium mb-1">Welcome back, {firstName || 'User'}</h2>
             <p className="text-base text-gray-600 max-w-2xl">
               Track your impact, monitor community reports, and measure how your clean-up efforts are transforming your environment
             </p>

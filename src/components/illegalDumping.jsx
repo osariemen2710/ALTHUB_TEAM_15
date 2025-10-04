@@ -1,8 +1,9 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import Sidebar from "./navigation";
-import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from "@react-google-maps/api"; // Import Marker
-import { Toaster, toast } from "sonner"
+import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from "@react-google-maps/api";
+import { Toaster, toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import apiFetch from "../lib/api"; // Import the apiFetch utility
 
 const IllegalDumping = () => {
   const navigate = useNavigate();
@@ -30,8 +31,9 @@ const IllegalDumping = () => {
   const [wasteType, setWasteType] = useState("");
   const [description, setDescription] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [markers, setMarkers] = useState([]); // keep markers defined to avoid runtime errors
-  const fileInputRef = useRef(null); // Ref for the hidden file input
+  const [markers, setMarkers] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef(null);
 
   const onLoad = useCallback(function callback(mapInstance) {
     setMap(mapInstance);
@@ -40,6 +42,20 @@ const IllegalDumping = () => {
   const onUnmount = useCallback(function callback(mapInstance) {
     setMap(null);
   }, []);
+
+  useEffect(() => {
+    if (map) {
+      // A small delay to ensure the container has resized before triggering the map resize.
+      const timer = setTimeout(() => {
+        if (window.google && window.google.maps) {
+          window.google.maps.event.trigger(map, 'resize');
+          map.setCenter(center); // Re-center the map after resize
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [map, center]);
 
   const onLoadSearchBox = useCallback(function callback(ref) {
     setSearchBox(ref);
@@ -60,8 +76,8 @@ const IllegalDumping = () => {
           location: newCenter,
         });
         map?.panTo(newCenter);
-        map?.setZoom(15); // Zoom in on the selected place
-        setIsModalOpen(true); // Open the modal automatically
+        map?.setZoom(15);
+        setIsModalOpen(true);
       }
     }
   }, [searchBox, map]);
@@ -69,7 +85,7 @@ const IllegalDumping = () => {
   const handleFileChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > 800 * 1024) { // Check for max 800kb
+      if (file.size > 800 * 1024) {
         toast.error("File size exceeds 800KB limit.");
         setUploadedFile(null);
       } else {
@@ -95,39 +111,52 @@ const IllegalDumping = () => {
     event.preventDefault();
   };
 
-  const handleSubmitReport = () => {
-    if (!wasteType || !description || !uploadedFile) {
+  const handleSubmitReport = async () => {
+    if (!wasteType || !description || !uploadedFile || !selectedPlace) {
       toast.error("Please fill in all required fields and upload an image.");
       return;
     }
-    // Here you would typically send the data to your backend
-    console.log("Report Submitted:", {
-      place: selectedPlace,
-      wasteType,
-      description,
-      file: uploadedFile,
-    });
 
-    // Reset form and close modal
-    setWasteType("");
-    setDescription("");
-    setUploadedFile(null);
-    setIsModalOpen(false);
-    setSelectedPlace(null); // Clear selected place after reporting
+    setIsSubmitting(true);
 
-    // Show success notification
-    toast.success("Thank you for your report! We'll look into it shortly.", {
-      duration: 5000,
-    });
+    const formData = new FormData();
+    formData.append('issue_type', wasteType);
+    formData.append('location', selectedPlace.address);
+    formData.append('description', description);
+    formData.append('file', uploadedFile);
+
+    try {
+      const response = await apiFetch('https://binit-1fpv.onrender.com/report', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        setWasteType("");
+        setDescription("");
+        setUploadedFile(null);
+        setIsModalOpen(false);
+        setSelectedPlace(null);
+
+        toast.success("Thank you for your report! We'll look into it shortly.", {
+          duration: 5000,
+        });
+      } else {
+        const errorData = await response.json().catch(() => ({ message: "An unknown error occurred." }));
+        toast.error(errorData.message || "Failed to submit report. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submit report error:", error);
+      toast.error("An error occurred while submitting the report.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-x-hidden">
-      {/* Sidebar on the left */}
       <Sidebar />
-      {/* Main content on the right */}
       <div className="flex-1 p-8 overflow-y-auto w-full h-screen bg-gray-50">
-        {/* Header Section */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800">
@@ -156,16 +185,14 @@ const IllegalDumping = () => {
           </button>
         </div>
 
-        {/* Map Section */}
         <div className="relative w-full h-[calc(100vh-180px)] rounded-lg shadow-lg overflow-hidden">
           <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}  libraries={["places"]}>
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
-              zoom={12} // Increased zoom for better detail
+              zoom={12}
               options={mapOptions}
             >
-              {/* Search Bar Overlay */}
               <div className="absolute top-4 left-4 z-10 w-96">
                 <div className="relative">
                  <StandaloneSearchBox
@@ -174,7 +201,7 @@ const IllegalDumping = () => {
               >
                   <input
                     type="text"
-                    placeholder="Search Location"
+                    placeholder="Search location to report..."
                     className="pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent w-full"
                   />
                     </StandaloneSearchBox>
@@ -197,7 +224,6 @@ const IllegalDumping = () => {
                 </div>
               </div>
 
-              {/* Zoom Controls Overlay (simulated for visual match) */}
               <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2">
                 <button className="bg-white p-2 rounded-lg shadow-md hover:bg-gray-100 transition-colors">
                   <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
@@ -207,14 +233,21 @@ const IllegalDumping = () => {
                 </button>
               </div>
 
-              {/* Markers */}
+              {/* Instructional Overlay */}
+              {!selectedPlace && !isModalOpen && (
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-white bg-opacity-90 rounded-lg shadow-lg text-center pointer-events-none">
+                  <p className="text-base font-semibold text-gray-700">
+                    Use the search bar to find and report a location.
+                  </p>
+                </div>
+              )}
+
               {markers.map((marker) => (
                 <Marker key={marker.id} position={{ lat: marker.lat, lng: marker.lng }} />
               ))}
             </GoogleMap>
           </LoadScript>
           <Toaster />
-           {/* Report Modal */}
           {isModalOpen && (
             <div className="fixed inset-0  bg-opacity-30 flex justify-center items-center z-50">
               <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
@@ -331,9 +364,10 @@ const IllegalDumping = () => {
 
                 <button
                   onClick={handleSubmitReport}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md shadow-md transition-colors"
+                  disabled={isSubmitting}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md shadow-md transition-colors disabled:bg-gray-400"
                 >
-                  Report
+                  {isSubmitting ? 'Submitting...' : 'Report'}
                 </button>
               </div>
             </div>

@@ -2,13 +2,23 @@ import React, { useState } from 'react';
 import { Search, LayoutDashboard, Calendar, AlertTriangle, Plus, Menu, X } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../assets/Header.svg';
-import Logout from '../assets/Logout.svg';
 import Logo from '../assets/binitLogo.svg';
 import { FaChartBar, FaTruck, FaQuestionCircle, FaSearch, FaSignOutAlt } from 'react-icons/fa';
+import { useUser } from '../context/UserContext';
+
+const getInitials = (name) => {
+  if (!name) return '';
+  const names = name.split(' ');
+  if (names.length > 1 && names[names.length - 1]) {
+    return `${names[0][0]}${names[names.length - 1][0]}`;
+  }
+  return names[0]?.[0] || '';
+};
 
 const Sidebar =()=> {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, loading, logout } = useUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -33,11 +43,6 @@ const Sidebar =()=> {
 
     }
   ];
-
-  const handleLogout = () => {
-    // Add any logout logic here (e.g., clearing tokens)
-    navigate('/login');
-  };
 
   const isPathActive = (itemPath) => {
     const currentPath = location.pathname;
@@ -135,23 +140,33 @@ const Sidebar =()=> {
 
       {/* User Profile */}
       <div className="p-4 border-t border-gray-100">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-semibold">JK</span>
+        {loading ? (
+            <div className="flex items-center gap-3 animate-pulse">
+              <div className="w-8 h-8 rounded-full bg-gray-200"></div>
+              <div className="flex flex-col gap-2">
+                <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                <div className="h-3 w-32 bg-gray-200 rounded"></div>
+              </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-gray-900">Jessica King</span>
-              <span className="text-xs text-gray-500">jess@binit.com</span>
+        ) : user ? (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-semibold">{getInitials(user.name)}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-gray-900">{user.name}</span>
+                <span className="text-xs text-gray-500">{user.email}</span>
+              </div>
             </div>
+            <button 
+              onClick={logout}
+              className="p-1 hover:bg-gray-100 rounded transition-colors"
+            >
+              <FaSignOutAlt alt="logout" className="w-5 h-5" />
+            </button>
           </div>
-          <button 
-            onClick={handleLogout}
-            className="p-1 hover:bg-gray-100 rounded transition-colors"
-          >
-            <FaSignOutAlt alt="logout" className="w-5 h-5" />
-          </button>
-        </div>
+        ) : null}
       </div>
     </div>
     </>
