@@ -1,77 +1,77 @@
 import { GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
-import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 
-const GoogleAuthButton = ({
-  onAuthSuccess,
-  onAuthError,
-  variant = 'outlined',
-  fullWidth = true,
-  text = 'Continue with Google',
-  disabled = false
-}) => {
+const GoogleAuthButton = ({ onSuccess }) => {
   const [loading, setLoading] = useState(false);
 
-  const isConfigured = process.env.REACT_APP_GOOGLE_CLIENT_ID &&
-    process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your-actual-client-id-here' &&
-    process.env.REACT_APP_GOOGLE_CLIENT_ID.includes('googleusercontent.com');
+  // Vite uses import.meta.env for environment variables
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  const isConfigured = googleClientId && googleClientId !== 'your-actual-client-id-here';
 
   if (!isConfigured) {
     return (
-      <Box sx={{ width: '100%', mb: 2 }}>
-        <Button disabled variant={variant} fullWidth={fullWidth}>
-          <Typography variant="inherit">
-            Google OAuth Not Configured
-          </Typography>
-        </Button>
-        <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-          Please configure REACT_APP_GOOGLE_CLIENT_ID in your .env file
-        </Typography>
-      </Box>
+      <div className="w-full mb-4">
+        <button
+          disabled
+          className="w-full bg-gray-200 text-gray-500 py-2 rounded-lg text-sm font-medium cursor-not-allowed"
+        >
+          Google OAuth Not Configured
+        </button>
+        <p className="mt-1 text-xs text-red-500">
+          Please configure VITE_GOOGLE_CLIENT_ID in your .env file
+        </p>
+      </div>
     );
   }
+
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
     try {
-      // Pass the Google credential to the parent component
-      // The parent will handle the backend API call
-      const googleUserData = {
-        credential: credentialResponse.credential,
-        access_token: credentialResponse.credential, // Some backends expect this field name
-        token: credentialResponse.credential // For backward compatibility
-      };
-      onAuthSuccess(googleUserData);
+      const res = await fetch('http://localhost:3001/api/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: credentialResponse.credential }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (onSuccess) {
+          onSuccess(data);
+        }
+      } else {
+        console.error('Backend login failed');
+      }
     } catch (error) {
-      onAuthError(error);
+      console.error('Error sending token to backend:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleGoogleError = () => {
+    console.error('Google Auth Error');
+  };
+
   return (
-    <Box sx={{ width: '100%' }}>
-      <GoogleLogin
-        onSuccess={handleGoogleSuccess}
-        onError={onAuthError}
-        useOneTap
-        theme="outline"
-        shape="rectangular"
-        text="continue_with"
-        disabled={disabled}
-      />
-      {loading && (
-        <Button
-          variant={variant}
-          fullWidth={fullWidth}
-          disabled
-          sx={{ mt: 2 }}
-        >
-          <CircularProgress size={20} sx={{ mr: 1 }} />
+    <div className="w-full flex justify-center">
+      {loading ? (
+        <div className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600">
           Connecting...
-        </Button>
+        </div>
+      ) : (
+        <GoogleLogin
+          onSuccess={handleGoogleSuccess}
+          onError={handleGoogleError}
+          useOneTap
+          theme="outline"
+          shape="rectangular"
+          text="continue_with"
+        />
       )}
-    </Box>
+    </div>
   );
 };
 
