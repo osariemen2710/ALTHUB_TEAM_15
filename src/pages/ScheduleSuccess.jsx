@@ -61,8 +61,26 @@ const ScheduleSuccess = () => {
     company,
   } = scheduleData;
 
+  const formatNextPickup = (startDate, timeWindow) => {
+    if (!startDate || !timeWindow) {
+      return "Not specified";
+    }
+
+    // Create a date object. Add T00:00:00 to avoid timezone issues.
+    const date = new Date(`${startDate}T00:00:00`);
+    
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-US', dateOptions);
+
+    // Extract start time from time window, e.g., "Morning (8 AM - 12 PM)" -> "8 AM"
+    const timeMatch = timeWindow.match(/\(([^)]+)\)/);
+    const time = timeMatch ? timeMatch[1].split(' - ')[0] : timeWindow;
+
+    return `${formattedDate} at ${time}`;
+  };
+
   const scheduleName = `${frequency} ${wasteType} Collection`;
-  const nextPickup = "Wednesday, July 10, 2025 at 9:00AM"; // This seems to be hardcoded, I will leave it for now.
+  const nextPickup = formatNextPickup(startDate, timeWindow);
   const monthlyCost = company?.price || "N/A";
 
   return (
