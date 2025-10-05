@@ -5,12 +5,12 @@ import { useUser } from "../context/UserContext";
 import apiFetch from "../lib/api";
 
 const StatCard = ({ title, value, unit, loading }) => (
-  <div className="bg-white p-6 rounded-xl border border-gray-200">
+  <div className="bg-white p-4 md:p-6 rounded-xl border border-gray-200">
     <p className="text-sm text-gray-500 mb-2">{title}</p>
     {loading ? (
       <div className="h-8 w-24 bg-gray-200 rounded-md animate-pulse"></div>
     ) : (
-      <h2 className="text-3xl font-semibold text-gray-800">
+      <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
         {value}
         {unit && <span className="text-lg font-medium text-gray-500 ml-2">{unit}</span>}
       </h2>
@@ -58,7 +58,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 p-8 overflow-y-auto w-full h-screen bg-gray-50">
+      <div className="flex-1 pt-20 p-4 md:p-8 overflow-y-auto w-full h-screen bg-gray-50">
         <main className="p-0">
           <div className="mb-8">
             <h2 className="text-2xl text-gray-800 font-medium mb-1">Welcome back, {firstName || 'User'}</h2>

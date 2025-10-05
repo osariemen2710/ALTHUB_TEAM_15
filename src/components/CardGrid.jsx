@@ -37,7 +37,7 @@ const CardGrid = ({ onCardClick }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mt-4 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 mt-4 w-full">
       {options.map((option) => (
         <Card
           key={option.id}
@@ -45,7 +45,7 @@ const CardGrid = ({ onCardClick }) => {
             setSelected(option.id);
             if (onCardClick) onCardClick(option);
           }}
-          className={`cursor-pointer transition-transform transform hover:scale-105 w-[350px] h-[180px] sm:w-[400px] ${
+          className={`cursor-pointer transition-transform transform hover:scale-105 w-full h-auto sm:w-72 sm:h-38 ${
             selected === option.id
               ? "border-green-500 shadow-lg"
               : "border-gray-200"

@@ -156,7 +156,7 @@ const IllegalDumping = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 p-8 overflow-y-auto w-full h-screen bg-gray-50">
+      <div className="flex-1 pt-20 p-8 overflow-y-auto w-full h-screen bg-gray-50">
         <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800">

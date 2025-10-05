@@ -73,12 +73,12 @@ const Sidebar =()=> {
   return (
     <>
       {/* Mobile Menu Button */}
-      <div className="md:hidden p-2 flex items-center justify-between border-b border-gray-200">
-        <img src={Header} alt="Header" className="h-10" />
-        <button onClick={toggleMobileMenu} className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-          <Menu className="w-6 h-6 text-gray-600" />
-        </button>
-      </div>
+     <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white p-1 flex items-center justify-between border-b border-gray-200">
+  <img src={Header} alt="Header" className="h-8" /> {/* slightly smaller */}
+  <button onClick={toggleMobileMenu} className="p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+    <Menu className="w-6 h-6 text-gray-600" />
+  </button>
+</div>
 
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (

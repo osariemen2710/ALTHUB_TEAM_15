@@ -120,7 +120,7 @@ const Select = () => {
     return (
       <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
         <Sidebar />
-        <main className="flex-1 p-6 md:p-8 lg:p-12 overflow-y-auto flex items-center justify-center">
+        <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto flex items-center justify-center">
             <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
                 <p className="text-gray-600">Loading schedule data...</p>
@@ -134,7 +134,7 @@ const Select = () => {
     return (
         <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
             <Sidebar />
-            <main className="flex-1 p-6 md:p-8 lg:p-12 overflow-y-auto flex items-center justify-center">
+            <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto flex items-center justify-center">
                 <div className="text-center bg-white p-8 rounded-lg shadow-md">
                     <p className="text-red-600 text-lg font-semibold">Missing schedule information</p>
                     <p className="text-gray-600 mt-2">It seems some data is missing. Please go back and complete the previous steps.</p>
@@ -154,7 +154,7 @@ const Select = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
       <Sidebar />
-      <main className="flex-1 p-6 md:p-8 lg:p-12 overflow-y-auto">
+      <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <ConnectingLines currentStep={5} onLineClick={handleLineClick} />
 

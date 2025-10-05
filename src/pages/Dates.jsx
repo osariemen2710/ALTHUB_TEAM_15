@@ -125,7 +125,7 @@ const Dates = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
       <Sidebar />
-      <main className="flex-1 p-6 md:p-8 lg:p-12 overflow-y-auto">
+      <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <ConnectingLines currentStep={2} onLineClick={handleLineClick} />
 
