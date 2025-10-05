@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/navigation.jsx";
 import ConnectingLines from "../components/ConnectingLines.jsx";
+import apiFetch from "../lib/api.js";
 
 const ScheduleSuccess = () => {
   const navigate = useNavigate();
@@ -83,11 +84,62 @@ const ScheduleSuccess = () => {
   const nextPickup = formatNextPickup(startDate, timeWindow);
   const monthlyCost = company?.price || "N/A";
 
+  const handlePayment = async () => {
+    const formatFrequency = (freq) => {
+      if (!freq) return 'daily';
+      const lowerCaseFreq = freq.toLowerCase();
+      if (lowerCaseFreq.includes('bi-weekly')) return 'bi_weekly';
+      if (lowerCaseFreq.includes('one-time')) return 'one_time';
+      if (lowerCaseFreq.includes('daily')) return 'daily';
+      if (lowerCaseFreq.includes('weekly')) return 'weekly';
+      if (lowerCaseFreq.includes('monthly')) return 'monthly';
+      return 'daily';
+    };
+
+    const pickupData = {
+      location: address || "",
+      waste_type: wasteType ? wasteType.toLowerCase().replace(/ /g, "_") : "general_waste",
+      frequency: formatFrequency(frequency),
+      schedule_name: scheduleName || "",
+      expected_volume: volume || "",
+      monthly_cost: company?.price ? parseFloat(company.price) : 0,
+      special_requirements: specialRequirements?.join(", ") || "",
+      service_provider: company?.name || "",
+      time_window: timeWindow || "",
+      scheduled_date: startDate ? new Date(startDate).toISOString() : new Date().toISOString(),
+      image_path: "",
+    };
+
+    try {
+      const response = await apiFetch("https://binit-1fpv.onrender.com/pickup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pickupData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Pickup scheduled successfully:", result);
+        navigate("/bill-payment", { state: { scheduleData } });
+      } else {
+        console.error("Failed to schedule pickup:", response.status, response.statusText);
+        // still navigate to the payment page
+        navigate("/bill-payment", { state: { scheduleData } });
+      }
+    } catch (error) {
+      console.error("Error scheduling pickup:", error);
+      // still navigate to the payment page
+      navigate("/bill-payment", { state: { scheduleData } });
+    }
+  };
+
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50">
       <Sidebar />
       
-      <main className="flex-1 p-6 md:p-8 lg:p-12 overflow-y-auto">
+      <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <ConnectingLines currentStep={5} onLineClick={handleLineClick} />
 
@@ -164,7 +216,7 @@ const ScheduleSuccess = () => {
 
           <div className="mt-8 flex justify-center">
             <button 
-              onClick={() => navigate('/bill-payment', { state: { scheduleData } })}
+              onClick={handlePayment}
               className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
               Payment & Billing Information
             </button>
