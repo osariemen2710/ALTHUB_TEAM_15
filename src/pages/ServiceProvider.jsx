@@ -2,6 +2,7 @@ import ConnectingLines from "../components/ConnectingLines.jsx";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Star, ArrowLeft, ArrowRight } from "lucide-react";
+import { Toaster, toast } from "sonner";
 import Sidebar from "../components/navigation.jsx";
 
 const ServiceProvider = () => {
@@ -119,6 +120,7 @@ const ServiceProvider = () => {
     <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
       <Sidebar />
       <main className="flex-1 p-6 md:p-8 lg:p-12 overflow-y-auto">
+        <Toaster />
         <div className="max-w-4xl mx-auto">
           <ConnectingLines currentStep={4} onLineClick={handleLineClick} />
 
@@ -211,13 +213,13 @@ const ServiceProvider = () => {
                       View Profile
                     </button>
                     <button
-                      onClick={() => navigate("/")}
+                      onClick={() => toast.info("No customer reviews yet.")}
                       className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                       Customer Reviews
                     </button>
                     <button
-                      onClick={() => navigate("/")}
+                      onClick={() => toast.info("Messaging is not available yet.")}
                       className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                       Message
@@ -237,7 +239,7 @@ const ServiceProvider = () => {
               <span>Back</span>
             </button>
             <button
-              onClick={handleViewProfile}
+              onClick={handleSelectCollector}
               disabled={!selectedCompany}
               className="bg-green-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center gap-2 hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >

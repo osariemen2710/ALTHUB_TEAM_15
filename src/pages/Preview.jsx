@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Star, ArrowLeft, ArrowRight } from "lucide-react";
 import Sidebar from "../components/navigation.jsx";
 
+import { toast } from "sonner";
+
 const companies = {
     "green-earth": {
       name: "Green Earth Recycling",
@@ -169,19 +171,19 @@ const Preview = () => {
                 
                 <div className="mt-8 border-t border-gray-200 pt-8 flex flex-col sm:flex-row gap-4">
                     <button
-                        onClick={() => navigate("/")}
+                        onClick={() => toast.info("Full profile view is not available yet.")}
                         className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                         View Full Profile
                     </button>
                     <button
-                        onClick={() => navigate("/")}
+                        onClick={() => toast.info("No customer reviews yet.")}
                         className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                         Customer Reviews
                     </button>
                     <button
-                        onClick={() => navigate("/")}
+                        onClick={() => toast.info("Messaging is not available yet.")}
                         className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                         Message Provider
