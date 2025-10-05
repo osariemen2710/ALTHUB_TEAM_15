@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CreditCard, ChevronDown } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/navigation.jsx";
@@ -7,6 +8,9 @@ const PaymentBillingPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const scheduleData = location.state?.scheduleData;
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvc, setCvc] = useState('');
 
   const handleLineClick = (step) => {
     switch (step) {
@@ -135,13 +139,31 @@ const PaymentBillingPage = () => {
                 </div>
               </div>
 
-              <div className="mt-6 bg-gray-50 border border-gray-300 rounded-md p-4">
-                <div className="flex items-start space-x-3">
-                  <CreditCard className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-gray-700">
-                    Payment will be automatically charged to your card ending in ****4567
-                  </p>
-                </div>
+              <div className="mt-8">
+                <h3 className="text-lg font-medium text-gray-800 mb-4">
+                  Enter Card Details
+                </h3>
+                <form className="space-y-4">
+                  <div>
+                    <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                    <div className="relative">
+                      <input type="text" id="cardNumber" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" placeholder="0000 0000 0000 0000" />
+                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <CreditCard className="h-5 w-5 text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                      <input type="text" id="expiryDate" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" placeholder="MM / YY" />
+                    </div>
+                    <div className="flex-1">
+                      <label htmlFor="cvc" className="block text-sm font-medium text-gray-700 mb-1">CVC</label>
+                      <input type="text" id="cvc" value={cvc} onChange={(e) => setCvc(e.target.value)} className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" placeholder="123" />
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

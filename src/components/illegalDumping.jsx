@@ -157,16 +157,16 @@ const IllegalDumping = () => {
     <div className="flex flex-col md:flex-row h-screen overflow-x-hidden">
       <Sidebar />
       <div className="flex-1 p-8 overflow-y-auto w-full h-screen bg-gray-50">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800">
               Report Illegal Bin Disposal
             </h1>
             <p className="text-gray-600 mt-1">
-              Spot an overflowing or improperly placed bin? Snap a photo, share the location, and help keep your <br></br> community clean and safe.
+              Spot an overflowing or improperly placed bin? Snap a photo, share the location, and help keep your community clean and safe.
             </p>
           </div>
-          <button onClick={() => navigate('/history')} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-md transition-transform transform hover:-translate-y-1">
+          <button onClick={() => navigate('/history')} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center shadow-md transition-transform transform hover:-translate-y-1 md:w-auto w-full">
             <svg
               className="w-4 h-4 mr-2"
               fill="none"
