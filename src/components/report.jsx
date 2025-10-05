@@ -103,7 +103,7 @@ const Report = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-50">
       <Sidebar />
-      <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-12 overflow-y-auto">
+      <main className="flex-1 pt-20 p-4 sm:p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <button
