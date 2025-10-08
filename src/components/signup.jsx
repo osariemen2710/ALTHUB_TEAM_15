@@ -61,7 +61,7 @@ export default function SignUp() {
       setLoading(true);
       setErrors({});
       try {
-        const response = await fetch('https://binit-1fpv.onrender.com/auth/register', {
+        const response = await fetch('/https://binit-1fpv.onrender.com/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

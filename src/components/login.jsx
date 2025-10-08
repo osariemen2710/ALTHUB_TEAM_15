@@ -60,7 +60,7 @@ const Login = () => {
       setErrors({});
       try {
         const details = {
-            grant_type: '',
+            grant_type: 'password',
             username: email,
             password: password,
             scope: '',

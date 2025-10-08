@@ -14,25 +14,25 @@ const CardGrid = ({ onCardClick }) => {
       id: 1,
       title: "Daily",
       description: "Pickup every day",
-      amount: "₦300/day",
+      amount: "₦300",
     },
     {
       id: 2,
       title: "Weekly",
       description: "Pickup once a week",
-      amount: "₦2800/day",
+      amount: "₦2800",
     },
     {
       id: 3,
       title: "Biweekly",
       description: "Pickup every 2 weeks",
-      amount: "₦1400/day",
+      amount: "₦3400",
     },
     {
       id: 4,
       title: "Monthly",
       description: "Pickup once a month",
-      amount: "₦4200/day",
+      amount: "₦4200",
     },
   ];
 

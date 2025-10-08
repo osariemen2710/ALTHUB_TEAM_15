@@ -68,7 +68,7 @@ const Dashboard = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-8">
-            <StatCard title="Total waste disposed (kg)" value={stats?.total_waste_disposed_kg ?? 0} loading={loading} />
+            <StatCard title="Total Number of PickUps" value={stats?.total_waste_disposed_kg ?? 0} loading={loading} />
             <StatCard title="Total Illegal Reports Logged" value={stats?.total_illegal_reports ?? 0} loading={loading} />
             <StatCard title="Coins Earned" value={stats?.total_coins_earned ?? 0} unit="coins" loading={loading} />
           </div>
