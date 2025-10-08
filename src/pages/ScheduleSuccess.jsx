@@ -62,6 +62,11 @@ const ScheduleSuccess = () => {
     company,
   } = scheduleData;
 
+   const parseCurrency = (currencyString) => {
+    if (typeof currencyString !== 'string') return 0;
+    return Number(currencyString.replace(/[^0-9.-]+/g,""));
+  }
+
   const formatNextPickup = (startDate, timeWindow) => {
     if (!startDate || !timeWindow) {
       return "Not specified";
@@ -82,7 +87,7 @@ const ScheduleSuccess = () => {
 
   const scheduleName = `${frequency} ${wasteType} Collection`;
   const nextPickup = formatNextPickup(startDate, timeWindow);
-  const monthlyCost = company?.price || "N/A";
+  const monthlyCost =  parseCurrency(company?.price || "0");
 
   const handlePayment = async () => {
     const formatFrequency = (freq) => {
@@ -96,20 +101,56 @@ const ScheduleSuccess = () => {
       return 'daily';
     };
 
+    const classifyWasteType = (wasteType) => {
+      if (!wasteType || wasteType.length === 0) {
+        return 'mixed';
+      }
+
+      if (Array.isArray(wasteType) && wasteType.length > 1) {
+        return 'mixed';
+      }
+
+      const type = Array.isArray(wasteType) ? wasteType[0] : wasteType;
+      const lowerCaseType = type.toLowerCase();
+
+      if (lowerCaseType.includes('general')) {
+        return 'mixed';
+      }
+      if (lowerCaseType.includes('organic')) {
+        return 'organic';
+      }
+      if (lowerCaseType.includes('recycling')) {
+        return 'plastic';
+      }
+      if (lowerCaseType.includes('e-waste')) {
+        return 'electronic';
+      }
+      if (lowerCaseType.includes('glass')) {
+        return 'glass';
+      }
+      if (lowerCaseType.includes('metal')) {
+        return 'metal';
+      }
+
+      return 'mixed';
+    };
+
+    const priceString = company?.price || '0';
+    const numericPrice = parseFloat(priceString.replace(/[^\d.-]/g, '')) || 0;
+
     const pickupData = {
       location: address || "",
-      waste_type: wasteType ? wasteType.toLowerCase().replace(/ /g, "_") : "general_waste",
+      waste_type: classifyWasteType(wasteType),
       frequency: formatFrequency(frequency),
       schedule_name: scheduleName || "",
       expected_volume: volume || "",
-      monthly_cost: company?.price ? parseFloat(company.price) : 0,
+      monthly_cost: numericPrice,
       special_requirements: specialRequirements?.join(", ") || "",
       service_provider: company?.name || "",
       time_window: timeWindow || "",
       scheduled_date: startDate ? new Date(startDate).toISOString() : new Date().toISOString(),
       image_path: "",
     };
-
     try {
       const response = await apiFetch("https://binit-1fpv.onrender.com/pickup", {
         method: "POST",

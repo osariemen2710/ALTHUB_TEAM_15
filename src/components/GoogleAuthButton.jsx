@@ -28,7 +28,7 @@ const GoogleAuthButton = ({ onSuccess }) => {
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3001/api/auth/google', {
+      const res = await fetch('https://althub-team-15-97kt.vercel.app/auth/callback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
