@@ -15,7 +15,7 @@ const PaymentHistory = () => {
         const response = await apiFetch('https://binit-1fpv.onrender.com/payment');
         if (response.ok) {
           const data = await response.json();
-          setPayments(data);
+          setPayments(data.payments);
         } else {
           const errorData = await response.json();
           throw new Error(errorData.message || 'Failed to fetch payment history.');
@@ -84,9 +84,11 @@ const PaymentHistory = () => {
                       <td className="whitespace-nowrap px-6 py-4">{payment.description || 'N/A'}</td>
                       <td className="whitespace-nowrap px-6 py-4">
                         <span
-                          className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            payment.status === 'succeeded' || payment.status === 'paid'
+                          className={`capitalize px-3 py-1.5 rounded-full text-xs font-medium ${
+                            payment.status === 'completed'
                               ? 'bg-green-100 text-green-800'
+                              : payment.status === 'refunded'
+                              ? 'bg-gray-200 text-gray-800'
                               : 'bg-yellow-100 text-yellow-800'
                           }`}
                         >
