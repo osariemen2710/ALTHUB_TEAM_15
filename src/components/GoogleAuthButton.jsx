@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 const GoogleAuthButton = ({ onSuccess }) => {
   const [loading, setLoading] = useState(false);
 
-  // Vite uses import.meta.env for environment variables
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const isConfigured = googleClientId && googleClientId !== 'your-actual-client-id-here';
@@ -29,20 +28,25 @@ const GoogleAuthButton = ({ onSuccess }) => {
     setLoading(true);
     try {
       const token = credentialResponse.credential;
-      const res = await fetch(`https://binit-1fpv.onrender.com/auth/callback`, {
-        method: 'GET',
+
+      const res = await fetch('https://binit-1fpv.onrender.com/auth/google/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
       });
 
       if (res.ok) {
         const data = await res.json();
-        if (onSuccess) {
-          onSuccess(data);
-        }
+        console.log('✅ Backend login success:', data);
+        if (onSuccess) onSuccess(data);
       } else {
-        console.error('Backend login failed');
+        const err = await res.text();
+        console.error('❌ Backend login failed:', err);
       }
     } catch (error) {
-      console.error('Error sending token to backend:', error);
+      console.error('🚨 Error sending token to backend:', error);
     } finally {
       setLoading(false);
     }
