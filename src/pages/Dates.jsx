@@ -45,14 +45,16 @@ const Dates = () => {
 
   useEffect(() => {
     if (selectedDay && selectedDate) {
-        const date = new Date(selectedDate + 'T00:00:00'); // Ensure correct date parsing
-        const dateDay = date.getUTCDay(); // Use UTC day to avoid timezone issues
+        // Append 'Z' to ensure the date is parsed as UTC. This prevents timezone-related off-by-one errors.
+        const date = new Date(selectedDate + 'T00:00:00Z');
+        const dateDay = date.getUTCDay(); // 0 for Sunday, 1 for Monday, etc.
         const dayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
         
         if (dayMap[selectedDay] !== dateDay) {
-            const dateDayName = Object.keys(dayMap).find(key => dayMap[key] === dateDay);
-            const fullDayName = dayNameMap[dateDayName];
-            setDayMismatchError(`The start date is a ${fullDayName}. Please select ${dayNameMap[selectedDay]} as the collection day or change the start date.`);
+            const startDateDayName = Object.keys(dayMap).find(key => dayMap[key] === dateDay);
+            const selectedDayFullName = dayNameMap[selectedDay];
+            const startDateFullName = dayNameMap[startDateDayName];
+            setDayMismatchError(`Collection day (${selectedDayFullName}) does not match the start date's day (${startDateFullName}).`);
         } else {
             setDayMismatchError("");
         }
@@ -67,10 +69,6 @@ const Dates = () => {
     const hasValidDay = checked || selectedDay;
     if (!hasValidDay) {
       newErrors.day = "Please select a collection day";
-    }
-
-    if (dayMismatchError) {
-      newErrors.dayMismatch = dayMismatchError;
     }
 
     if (!selectedTime) {
@@ -104,7 +102,10 @@ const Dates = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    const isFormValid = validateForm();
+    if (!isFormValid || dayMismatchError) {
+        return;
+    }
 
     const frequency = checked
       ? "Every Wednesday"
