@@ -1,13 +1,15 @@
-import { Check } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Check, Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/navigation.jsx";
 import ConnectingLines from "../components/ConnectingLines.jsx";
 import apiFetch from "../lib/api.js";
+import { useSchedule } from "../context/ScheduleContext";
 
 const ScheduleSuccess = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const scheduleData = location.state?.scheduleData;
+  const { scheduleData } = useSchedule();
 
   const handleLineClick = (step) => {
     switch (step) {
@@ -151,6 +153,8 @@ const ScheduleSuccess = () => {
       scheduled_date: startDate ? new Date(startDate).toISOString() : new Date().toISOString(),
       image_path: "",
     };
+
+    setIsLoading(true);
     try {
       const response = await apiFetch("https://binit-1fpv.onrender.com/pickup", {
         method: "POST",
@@ -163,16 +167,14 @@ const ScheduleSuccess = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Pickup scheduled successfully:", result);
-        navigate("/bill-payment", { state: { scheduleData } });
       } else {
         console.error("Failed to schedule pickup:", response.status, response.statusText);
-        // still navigate to the payment page
-        navigate("/bill-payment", { state: { scheduleData } });
       }
     } catch (error) {
       console.error("Error scheduling pickup:", error);
-      // still navigate to the payment page
-      navigate("/bill-payment", { state: { scheduleData } });
+    } finally {
+      setIsLoading(false);
+      navigate("/bill-payment");
     }
   };
 
@@ -258,8 +260,16 @@ const ScheduleSuccess = () => {
           <div className="mt-8 flex justify-center">
             <button 
               onClick={handlePayment}
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-              Payment & Billing Information
+              disabled={isLoading}
+              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center w-72 disabled:bg-blue-400 disabled:cursor-not-allowed">
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                'Payment & Billing Information'
+              )}
             </button>
           </div>
         </div>

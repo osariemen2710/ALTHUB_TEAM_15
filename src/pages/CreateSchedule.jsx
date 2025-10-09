@@ -1,11 +1,18 @@
+import { useEffect } from "react";
 import ConnectingLines from "../components/ConnectingLines.jsx";
 import CardGrid from "../components/CardGrid.jsx";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/navigation.jsx";
 import { ArrowRight } from "lucide-react";
+import { useSchedule } from "../context/ScheduleContext";
 
 const CreateSchedule = () => {
   const navigate = useNavigate();
+  const { resetScheduleData } = useSchedule();
+
+  useEffect(() => {
+    resetScheduleData();
+  }, [resetScheduleData]);
 
   const handleCardClick = () => {
     navigate("/dates");

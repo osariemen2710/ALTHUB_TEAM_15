@@ -1,12 +1,13 @@
 import ConnectingLines from "../components/ConnectingLines.jsx";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Info } from "lucide-react";
 import Sidebar from "../components/navigation.jsx";
+import { useSchedule } from "../context/ScheduleContext";
 
 const SpecialRequirements = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { scheduleData, updateScheduleData } = useSchedule();
 
   const options = [
     { type: "Heavy Items requiring special handling" },
@@ -14,8 +15,8 @@ const SpecialRequirements = () => {
     { type: "Prefer quiet collection (no loud noises)" },
     { type: "Pre-sorted waste (no mixing required)" },
   ];
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [accessInstructions, setAccessInstructions] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState(scheduleData.specialRequirements || []);
+  const [accessInstructions, setAccessInstructions] = useState(scheduleData.accessInstructions || "");
 
   const toggleSelect = (type) => {
     setSelectedOptions((prev) =>
@@ -28,9 +29,8 @@ const SpecialRequirements = () => {
       specialRequirements: selectedOptions,
       accessInstructions: accessInstructions,
     };
-    navigate("/service", {
-      state: { scheduleData: { ...location.state.scheduleData, ...specialData } },
-    });
+    updateScheduleData(specialData);
+    navigate("/service");
   };
 
   const handleLineClick = (step) => {

@@ -1,13 +1,15 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import ConnectingLines from "../components/ConnectingLines.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/navigation.jsx";
+import { useSchedule } from "../context/ScheduleContext";
 
 const Dates = () => {
   const navigate = useNavigate();
+  const { scheduleData, updateScheduleData } = useSchedule();
 
-  const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const allDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const dayNameMap = {
     Mon: "Monday",
     Tue: "Tuesday",
@@ -33,12 +35,31 @@ const Dates = () => {
     "Night (8 PM - 12 AM)",
   ];
 
-  const [selectedDay, setSelectedDay] = useState("");
-  const [checked, setChecked] = useState(false);
-  const [selectedTime, setSelectedTime] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
-  const [address, setAddress] = useState("");
+  const [selectedDay, setSelectedDay] = useState(scheduleData.selectedDay || "");
+  const [checked, setChecked] = useState(scheduleData.isWednesdaySpecial || false);
+  const [selectedTime, setSelectedTime] = useState(scheduleData.timeWindow || "");
+  const [selectedDate, setSelectedDate] = useState(scheduleData.startDate || "");
+  const [address, setAddress] = useState(scheduleData.location || "");
   const [errors, setErrors] = useState({});
+  const [dayMismatchError, setDayMismatchError] = useState("");
+
+  useEffect(() => {
+    if (selectedDay && selectedDate) {
+        const date = new Date(selectedDate + 'T00:00:00'); // Ensure correct date parsing
+        const dateDay = date.getUTCDay(); // Use UTC day to avoid timezone issues
+        const dayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+        
+        if (dayMap[selectedDay] !== dateDay) {
+            const dateDayName = Object.keys(dayMap).find(key => dayMap[key] === dateDay);
+            const fullDayName = dayNameMap[dateDayName];
+            setDayMismatchError(`The start date is a ${fullDayName}. Please select ${dayNameMap[selectedDay]} as the collection day or change the start date.`);
+        } else {
+            setDayMismatchError("");
+        }
+    } else {
+        setDayMismatchError("");
+    }
+}, [selectedDay, selectedDate, dayNameMap]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -46,6 +67,10 @@ const Dates = () => {
     const hasValidDay = checked || selectedDay;
     if (!hasValidDay) {
       newErrors.day = "Please select a collection day";
+    }
+
+    if (dayMismatchError) {
+      newErrors.dayMismatch = dayMismatchError;
     }
 
     if (!selectedTime) {
@@ -64,7 +89,6 @@ const Dates = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle checkbox toggle - FIXED VERSION
   const handleCheckboxChange = () => {
     const newChecked = !checked;
     setChecked(newChecked);
@@ -75,11 +99,9 @@ const Dates = () => {
       setSelectedDay("");
     }
 
-    // Clear any existing day errors
     setErrors((prev) => ({ ...prev, day: undefined }));
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -97,7 +119,8 @@ const Dates = () => {
       completedAt: new Date().toISOString(),
     };
 
-    navigate("/waste", { state: { scheduleData: stepData } });
+    updateScheduleData(stepData);
+    navigate("/waste");
   };
 
   const handleLineClick = (step) => {
@@ -167,6 +190,9 @@ const Dates = () => {
                 {errors.day && (
                   <p className="mt-2 text-sm text-red-600">{errors.day}</p>
                 )}
+                {dayMismatchError && (
+                    <p className="mt-2 text-sm text-red-600">{dayMismatchError}</p>
+                )}
                 <label className="flex items-center text-green-600 space-x-2 mt-4 text-sm cursor-pointer">
                   <input
                     type="checkbox"
@@ -176,7 +202,7 @@ const Dates = () => {
                   />
                   <span>Special offer: Every Wednesday!</span>
                 </label>
-                {selectedDay && (
+                {selectedDay && !dayMismatchError && (
                   <p className="mt-4 text-green-700 bg-green-50 p-3 rounded-lg">
                     {dayMessages[dayNameMap[selectedDay]]}
                   </p>

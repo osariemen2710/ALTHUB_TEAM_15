@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { CreditCard, ChevronDown } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/navigation.jsx";
 import ConnectingLines from "../components/ConnectingLines.jsx";
+import { useSchedule } from "../context/ScheduleContext";
+import apiFetch from "../lib/api.js";
 
 const PaymentBillingPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const scheduleData = location.state?.scheduleData;
+  const { scheduleData } = useSchedule();
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvc, setCvc] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const handleLineClick = (step) => {
     switch (step) {
@@ -68,6 +72,65 @@ const PaymentBillingPage = () => {
   const monthlyCostValue = parseCurrency(company?.price || "0");
   const newCustomerDiscount = 150;
   const firstPayment = monthlyCostValue - newCustomerDiscount;
+
+  const handlePayment = async () => {
+    setIsLoading(true);
+    setError(null);
+    setPaymentSuccess(false);
+
+    try {
+      // 1. Create Payment Intent
+      const intentResponse = await apiFetch('https://binit-1fpv.onrender.com/payments/create-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: firstPayment,
+          currency: 'NAIRA',
+          description: `Payment for ${company?.name} waste collection.`,
+          payment_metadata: {
+            card_number: cardNumber,
+            expiry_date: expiryDate,
+            cvc: cvc,
+          },
+        }),
+      });
+
+      if (!intentResponse.ok) {
+        const errorData = await intentResponse.json();
+        throw new Error(errorData.message || 'Failed to create payment intent.');
+      }
+
+      const intentData = await intentResponse.json();
+      const { id: payment_intent_id } = intentData;
+
+      // 2. Confirm Payment
+      const confirmResponse = await apiFetch('https://binit-1fpv.onrender.com/payments/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          payment_intent_id,
+          payment_method: 'card',
+        }),
+      });
+
+      if (!confirmResponse.ok) {
+        const errorData = await confirmResponse.json();
+        throw new Error(errorData.message || 'Payment confirmation failed.');
+      }
+
+      // 3. Handle Success
+      setPaymentSuccess(true);
+      setTimeout(() => {
+        navigate("/success");
+      }, 3000);
+
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const calculateUpcomingPickups = (startDate, frequency, timeWindow) => {
     const pickups = [];
@@ -168,9 +231,24 @@ const PaymentBillingPage = () => {
             </div>
           </div>
 
+          {error && (
+            <div className="mt-4 text-center text-red-600 bg-red-100 p-3 rounded-lg">
+              {error}
+            </div>
+          )}
+          {paymentSuccess && (
+            <div className="mt-4 text-center text-green-600 bg-green-100 p-3 rounded-lg">
+              Payment successful! Redirecting...
+            </div>
+          )}
+
           <div className="mt-8 flex justify-center">
-            <button className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm">
-              Confirm & Pay
+            <button 
+              onClick={handlePayment}
+              disabled={isLoading || paymentSuccess}
+              className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Processing...' : (paymentSuccess ? 'Paid!' : 'Confirm & Pay')}
             </button>
           </div>
         </div>
