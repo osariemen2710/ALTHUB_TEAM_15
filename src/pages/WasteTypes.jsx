@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { LoaderPinwheel, Trash2, Paintbrush, BatteryFull, ArrowLeft, ArrowRight } from "lucide-react";
 import ConnectingLines from "../components/ConnectingLines.jsx";
 import Sidebar from "../components/navigation.jsx";
+import { useSchedule } from "../context/ScheduleContext";
 
 const WasteTypes = () => {
-  const [selectedMeasurement, setSelectedMeasurement] = useState("");
+  const { scheduleData, updateScheduleData } = useSchedule();
+  const [selectedMeasurement, setSelectedMeasurement] = useState(scheduleData.volume || "");
   const [errors, setErrors] = useState({});
-  const location = useLocation();
   const navigate = useNavigate();
 
   const options = [
@@ -33,7 +34,7 @@ const WasteTypes = () => {
     },
   ];
 
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState(scheduleData.wasteType?.split(", ") || []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -56,9 +57,8 @@ const WasteTypes = () => {
         wasteType: selected.join(", "),
         volume: selectedMeasurement,
       };
-      navigate("/special", {
-        state: { scheduleData: { ...location.state.scheduleData, ...wasteData } },
-      });
+      updateScheduleData(wasteData);
+      navigate("/special");
     }
   };
 

@@ -1,13 +1,14 @@
 import ConnectingLines from "../components/ConnectingLines.jsx";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Star, ArrowLeft, ArrowRight } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import Sidebar from "../components/navigation.jsx";
+import { useSchedule } from "../context/ScheduleContext";
 
 const ServiceProvider = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { scheduleData, updateScheduleData } = useSchedule();
 
   const companies = {
     "green-earth": {
@@ -67,7 +68,7 @@ const ServiceProvider = () => {
     },
   };
 
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState(scheduleData.companySlug || "");
 
   const handleSelectCollector = () => {
     if (selectedCompany) {
@@ -75,9 +76,8 @@ const ServiceProvider = () => {
         companySlug: selectedCompany,
         company: companies[selectedCompany],
       };
-      navigate("/success", {
-        state: { scheduleData: { ...location.state.scheduleData, ...companyData } },
-      });
+      updateScheduleData(companyData);
+      navigate("/success");
     } else {
       // TODO: Show an error to the user
     }
@@ -85,12 +85,12 @@ const ServiceProvider = () => {
 
   const handleViewProfile = () => {
     if (selectedCompany) {
-      navigate("/preview", {
-        state: {
-          scheduleData: location.state.scheduleData,
-          companySlug: selectedCompany,
-        },
-      });
+      const companyData = {
+        companySlug: selectedCompany,
+        company: companies[selectedCompany],
+      };
+      updateScheduleData(companyData);
+      navigate("/preview");
     }
   };
 

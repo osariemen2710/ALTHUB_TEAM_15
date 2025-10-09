@@ -17,6 +17,7 @@ import BillPayment from "./pages/BillPayment";
 import NotificationPreferencesPage from "./pages/Notification.jsx";
 import IllegalDumping from "./components/illegalDumping";
 import Report from './components/report';
+import PaymentHistory from './pages/PaymentHistory';
 
  function App () { 
   return (
@@ -40,6 +41,7 @@ import Report from './components/report';
         <Route path="/bill-payment" element={<BillPayment/>} />
         <Route path="/notifications" element={<NotificationPreferencesPage/>} />
         <Route path="/history" element={<Report/>} />
+        <Route path="/payment-history" element={<PaymentHistory />} />
         
     </Routes>
     </Router>

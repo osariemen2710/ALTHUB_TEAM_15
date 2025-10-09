@@ -1,8 +1,9 @@
 import ConnectingLines from "../components/ConnectingLines.jsx";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Star, ArrowLeft, ArrowRight } from "lucide-react";
 import Sidebar from "../components/navigation.jsx";
+import { useSchedule } from "../context/ScheduleContext";
 
 import { toast } from "sonner";
 
@@ -65,9 +66,9 @@ const companies = {
   };
 
 const Preview = () => {
-  const { state } = useLocation();
+  const { scheduleData, updateScheduleData } = useSchedule();
   const navigate = useNavigate();
-  const { companySlug } = state || {};
+  const { companySlug } = scheduleData || {};
   const [selectedCompany, setSelectedCompany] = useState(null);
 
   useEffect(() => {
@@ -139,11 +140,8 @@ const Preview = () => {
                             companySlug: companySlug,
                             company: selectedCompany,
                         };
-                        navigate("/success", {
-                            state: {
-                            scheduleData: { ...state.scheduleData, ...companyData },
-                            },
-                        });
+                        updateScheduleData(companyData);
+                        navigate("/success");
                         }}
                         className="w-full sm:w-auto bg-green-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:bg-green-700 transition-colors"
                     >
@@ -193,14 +191,21 @@ const Preview = () => {
 
             <div className="mt-12 flex justify-between">
                 <button
-                    onClick={() => navigate("/service", { state })}
+                    onClick={() => navigate("/service")}
                     className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center gap-2 hover:bg-gray-300 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5" />
                     <span>Back to Providers</span>
                 </button>
                 <button
-                    onClick={() => navigate("/success")}
+                    onClick={() => {
+                        const companyData = {
+                            companySlug: companySlug,
+                            company: selectedCompany,
+                        };
+                        updateScheduleData(companyData);
+                        navigate("/success");
+                        }}
                     className="bg-green-600 text-white font-semibold py-3 px-6 rounded-lg flex items-center gap-2 hover:bg-green-700 transition-colors"
                 >
                     <span>Next Step</span>

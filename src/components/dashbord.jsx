@@ -3,6 +3,7 @@ import Sidebar from "./navigation";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useUser } from "../context/UserContext";
 import apiFetch from "../lib/api";
+import { useNavigate } from "react-router-dom";
 
 const StatCard = ({ title, value, unit, loading }) => (
   <div className="bg-white p-4 md:p-6 rounded-xl border border-gray-200">
@@ -23,6 +24,7 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const firstName = user?.name?.split(' ')[0];
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -60,11 +62,16 @@ const Dashboard = () => {
       <Sidebar />
       <div className="flex-1 pt-20 p-4 md:p-8 overflow-y-auto w-full h-screen bg-gray-50">
         <main className="p-0">
-          <div className="mb-8">
-            <h2 className="text-2xl text-gray-800 font-medium mb-1">Welcome back, {firstName || 'User'}</h2>
-            <p className="text-base text-gray-600 max-w-2xl">
-              Track your impact, monitor community reports, and measure how your clean-up efforts are transforming your environment
-            </p>
+          <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-8">
+            <div>
+              <h2 className="text-2xl text-gray-800 font-medium mb-1">Welcome back, {firstName || 'User'}</h2>
+              <p className="text-base text-gray-600 max-w-2xl">
+                Track your impact, monitor community reports, and measure how your clean-up efforts are transforming your environment
+              </p>
+            </div>
+            <button onClick={() => navigate('/payment-history')} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center shadow-md transition-transform transform hover:-translate-y-1 md:w-auto w-full">
+              Payment History
+            </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-8">
