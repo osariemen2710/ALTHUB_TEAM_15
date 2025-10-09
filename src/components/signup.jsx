@@ -22,6 +22,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const { login } = useUser();
+  const [acceptedPolicy, setAcceptedPolicy] = useState(false);
 
   const handleSuccess = (message) => {
     toast.success(message);
@@ -68,6 +69,7 @@ export default function SignUp() {
     if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
+    if (!acceptedPolicy) newErrors.acceptedPolicy = 'You must accept the Privacy Policy and Terms before signing up';
 
     setErrors(newErrors);
     
@@ -84,6 +86,8 @@ export default function SignUp() {
             name: formData.name,
             email: formData.email,
             password: formData.password,
+            acceptedPolicy: true,
+            acceptedAt: new Date().toISOString(),
             role: 'user'
           }),
         });
@@ -252,6 +256,26 @@ export default function SignUp() {
                 <p className="mt-1 text-xs text-red-500">{errors.confirmPassword}</p>
               )}
             </div>
+
+            {/* Privacy Policy Acceptance */}
+            <div className="flex items-start space-x-3">
+              <input
+                id="acceptPolicy"
+                type="checkbox"
+                checked={acceptedPolicy}
+                onChange={(e) => {
+                  setAcceptedPolicy(e.target.checked);
+                  if (errors.acceptedPolicy) setErrors(prev => ({ ...prev, acceptedPolicy: '' }));
+                }}
+                className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <label htmlFor="acceptPolicy" className="text-sm text-gray-700">
+                I have read and agree to the <a href="/privacy" className="text-green-600 hover:underline">BinIt Privacy Policy</a> and <a href="/privacy" className="text-green-600 hover:underline">Terms &amp; Conditions</a>.
+              </label>
+            </div>
+            {errors.acceptedPolicy && (
+              <p className="mt-1 text-xs text-red-500">{errors.acceptedPolicy}</p>
+            )}
 
 
             {/* Buttons */}
