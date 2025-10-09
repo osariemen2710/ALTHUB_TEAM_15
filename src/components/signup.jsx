@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import binitImage from '../assets/binit-image.jpg';
 import GoogleAuthButton from './GoogleAuthButton';
+import { useUser } from "../context/UserContext";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -20,10 +21,23 @@ export default function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const { login } = useUser();
 
   const handleSuccess = (message) => {
     toast.success(message);
     setTimeout(() => navigate('/login'), 2000); // Navigate after 2 seconds
+  };
+
+  const handleGoogleSignupSuccess = async (backendResponse) => {
+    try {
+      setLoading(true);
+      await login(backendResponse.access_token, backendResponse.refresh_token);
+      navigate('/dashboard');
+    } catch (error) {
+      setErrors({ form: 'Failed to sign up with Google. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -61,7 +75,7 @@ export default function SignUp() {
       setLoading(true);
       setErrors({});
       try {
-        const response = await fetch('/https://binit-1fpv.onrender.com/auth/register', {
+        const response = await fetch('https://binit-1fpv.onrender.com/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -258,7 +272,7 @@ export default function SignUp() {
               </div>
             </div>
 
-                        <GoogleAuthButton onSuccess={() => handleSuccess('Signed up successfully with Google!')} />
+                        <GoogleAuthButton onSuccess={handleGoogleSignupSuccess} />
 
             {/* Login Link */}
             <div className="text-center text-xs text-gray-600">

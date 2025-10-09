@@ -28,12 +28,9 @@ const GoogleAuthButton = ({ onSuccess }) => {
   const handleGoogleSuccess = async (credentialResponse) => {
     setLoading(true);
     try {
-      const res = await fetch('https://althub-team-15-97kt.vercel.app/auth/callback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: credentialResponse.credential }),
+      const token = credentialResponse.credential;
+      const res = await fetch(`https://binit-1fpv.onrender.com/auth/callback?token=${encodeURIComponent(token)}`, {
+        method: 'GET',
       });
 
       if (res.ok) {
