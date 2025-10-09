@@ -5,6 +5,7 @@ import Sidebar from "../components/navigation.jsx";
 import ConnectingLines from "../components/ConnectingLines.jsx";
 import { useSchedule } from "../context/ScheduleContext";
 import apiFetch from "../lib/api.js";
+import { Toaster, toast } from "sonner";
 
 const PaymentBillingPage = () => {
   const navigate = useNavigate();
@@ -120,9 +121,10 @@ const PaymentBillingPage = () => {
 
       // 3. Handle Success
       setPaymentSuccess(true);
+      toast.success("Payment confirmed successfully!");
       setTimeout(() => {
-        navigate("/success");
-      }, 3000);
+        navigate("/dashboard");
+      }, 2000);
 
 
     } catch (err) {
@@ -150,6 +152,7 @@ const PaymentBillingPage = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-50">
       <Sidebar />
+      <Toaster richColors position="top-center" />
       
       <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
