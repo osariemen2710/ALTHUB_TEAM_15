@@ -29,7 +29,7 @@ const GoogleAuthButton = ({ onSuccess }) => {
     setLoading(true);
     try {
       const token = credentialResponse.credential;
-      const res = await fetch(`https://binit-1fpv.onrender.com/auth/callback?token=${encodeURIComponent(token)}`, {
+      const res = await fetch(`https://binit-1fpv.onrender.com/auth/callback`, {
         method: 'GET',
       });
 
