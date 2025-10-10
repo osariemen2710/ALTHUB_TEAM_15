@@ -8,56 +8,25 @@ const AuthCallback = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const code = params.get('code');
-    const state = params.get('state');
+    const accessToken = params.get('access_token');
+    const refreshToken = params.get('refresh_token');
     const errorParam = params.get('error');
 
     if (errorParam) {
-      setError(`Google authentication failed: ${errorParam}`);
+      setError(`Authentication failed: ${errorParam}`);
       setTimeout(() => navigate('/login'), 5000);
       return;
     }
 
-    if (code) {
-      const exchangeCodeForToken = async () => {
-        try {
-          // ========================================================================
-          // NOTE: Sending code to the backend via GET request as requested.
-          const backendUrl = new URL('https://binit-1fpv.onrender.com/auth/google/callback');
-          backendUrl.searchParams.append('code', code);
-          if (state) {
-            backendUrl.searchParams.append('state', state);
-          }
-          // ========================================================================
-
-          const response = await fetch(backendUrl.toString(), {
-            method: 'GET',
-          });
-
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || 'Failed to exchange code for token.');
-          }
-
-          const data = await response.json();
-
-          if (data.access_token && data.refresh_token) {
-            localStorage.setItem('accessToken', data.access_token);
-            localStorage.setItem('refreshToken', data.refresh_token);
-            navigate('/dashboard');
-          } else {
-            throw new Error('Tokens not provided by the backend.');
-          }
-
-        } catch (err) {
-          console.error('Authentication error:', err);
-          setError('Authentication failed. Please try logging in again.');
-          setTimeout(() => navigate('/login'), 5000);
-        }
-      };
-      exchangeCodeForToken();
+    if (accessToken) {
+      localStorage.setItem('accessToken', accessToken);
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken);
+      }
+      // Redirect to the dashboard
+      navigate('/dashboard');
     } else {
-      setError('Authorization code not found in URL.');
+      setError('Authorization token not found in URL.');
       setTimeout(() => navigate('/login'), 5000);
     }
   }, [location, navigate]);
