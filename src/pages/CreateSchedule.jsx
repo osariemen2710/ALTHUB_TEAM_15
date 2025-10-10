@@ -8,13 +8,16 @@ import { useSchedule } from "../context/ScheduleContext";
 
 const CreateSchedule = () => {
   const navigate = useNavigate();
-  const { resetScheduleData } = useSchedule();
+  const { resetScheduleData, updateScheduleData } = useSchedule(); // Get updateScheduleData
 
   useEffect(() => {
     resetScheduleData();
   }, [resetScheduleData]);
 
-  const handleCardClick = () => {
+  // Modify handleCardClick to accept the selected option
+  const handleCardClick = (selectedOption) => {
+    // Update the scheduleData context with the selected frequency
+    updateScheduleData({ frequency: selectedOption.title });
     navigate("/dates");
   };
 
