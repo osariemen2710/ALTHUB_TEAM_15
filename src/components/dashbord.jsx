@@ -51,6 +51,25 @@ const processPickupData = (pickups) => {
   return Object.values(monthlyData);
 };
 
+const isDashboardDataEmpty = (data) => {
+  if (!data) return true;
+
+  if (data.total_waste_disposed_kg !== 0) return false;
+  if (data.total_illegal_reports !== 0) return false;
+  if (data.total_coins_earned !== 0) return false;
+
+  if (!data.monthly_waste_data || data.monthly_waste_data.length === 0) return true;
+
+  for (const monthData of data.monthly_waste_data) {
+    if (monthData.organic_waste !== 0) return false;
+    if (monthData.general_waste !== 0) return false;
+    if (monthData.e_waste !== 0) return false;
+    if (monthData.recycling !== 0) return false;
+  }
+
+  return true;
+};
+
 const Dashboard = () => {
   const { user } = useUser();
   const [stats, setStats] = useState(null);

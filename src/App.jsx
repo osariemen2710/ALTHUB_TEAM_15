@@ -20,6 +20,7 @@ import Report from './components/report';
 import PaymentHistory from './pages/PaymentHistory';
 import PickupHistory from './pages/PickupHistory';
 import BinitPrivacyPolicy from './pages/BinitPrivacyPolicy';
+import AccountSettings from './pages/AccountSettings';
 import AuthCallback from './pages/AuthCallback';
 
  function App () { 
@@ -46,7 +47,7 @@ import AuthCallback from './pages/AuthCallback';
         <Route path="/notifications" element={<NotificationPreferencesPage/>} />
         <Route path="/history" element={<Report/>} />
         <Route path="/payment-history" element={<PaymentHistory />} />
-        <Route path="/pickup-history" element={<PickupHistory />} />
+        <Route path="/settings" element={<AccountSettings />} />
   <Route path="/privacy" element={<BinitPrivacyPolicy />} />
         
     </Routes>
