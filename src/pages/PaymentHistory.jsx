@@ -12,7 +12,7 @@ const PaymentHistory = () => {
     const fetchPaymentHistory = async () => {
       try {
         setLoading(true);
-        const response = await apiFetch('https://binit-1fpv.onrender.com/payment');
+        const response = await apiFetch('https://binit-1fpv.onrender.com/payments');
         if (response.ok) {
           const data = await response.json();
           setPayments(data.payments);
