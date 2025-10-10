@@ -296,7 +296,13 @@ export default function SignUp() {
               </div>
             </div>
 
-                        <GoogleAuthButton onSuccess={handleGoogleSignupSuccess} />
+            <div onClick={() => {
+                if (!acceptedPolicy) {
+                    setErrors(prev => ({ ...prev, acceptedPolicy: 'You must accept the Privacy Policy and Terms before signing up' }));
+                }
+            }}>
+              <GoogleAuthButton disabled={!acceptedPolicy} />
+            </div>
 
             {/* Login Link */}
             <div className="text-center text-xs text-gray-600">

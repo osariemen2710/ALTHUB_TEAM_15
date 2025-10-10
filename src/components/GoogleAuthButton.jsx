@@ -1,7 +1,8 @@
 import React from 'react';
 
-const GoogleAuthButton = () => {
+const GoogleAuthButton = ({ disabled = false }) => {
   const handleLogin = () => {
+    if (disabled) return;
     const redirectUri = 'https://althub-team-15-97kt.vercel.app/auth/callback';
     const googleLoginUrl = `https://binit-1fpv.onrender.com/auth/google/login?redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = googleLoginUrl;
@@ -11,7 +12,8 @@ const GoogleAuthButton = () => {
     <div className="w-full flex justify-center">
       <button
         onClick={handleLogin}
-        className="w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-50"
+        disabled={disabled}
+        className={`w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'}`}
       >
           <svg className="w-5 h-5 mr-2" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
               <path fill="#4285F4" d="M24 9.5c3.9 0 6.9 1.6 9 3.6l6.9-6.9C35.4 2.3 30.1 0 24 0 14.9 0 7.3 5.4 4.1 12.9l7.8 6C13.8 12.9 18.5 9.5 24 9.5z"/>
