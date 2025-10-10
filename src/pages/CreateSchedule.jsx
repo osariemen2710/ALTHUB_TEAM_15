@@ -45,12 +45,22 @@ const CreateSchedule = () => {
       <Sidebar />
       <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-            Create Regular Pickup Schedule
-          </h1>
-          <p className="text-gray-600 mb-8 text-base">
-            Set up recurring waste collections that fit your routine.
-          </p>
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                Create Regular Pickup Schedule
+              </h1>
+              <p className="text-gray-600 text-base">
+                Set up recurring waste collections that fit your routine.
+              </p>
+            </div>
+            <button
+              onClick={() => navigate("/pickup-history")}
+               className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center shadow-md transition-transform transform hover:-translate-y-1 md:w-auto w-full"
+            >
+              Pickup History
+            </button>
+          </div>
           
           <ConnectingLines currentStep={1} onLineClick={handleLineClick} />
 
