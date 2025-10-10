@@ -1,44 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useUser } from '../context/UserContext';
+
 const AuthCallback = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { login } = useUser();
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const accessToken = params.get('access_token');
-    const refreshToken = params.get('refresh_token');
-    const userParam = params.get('user');
-    const errorParam = params.get('error');
+    const handleAuth = async () => {
+      const params = new URLSearchParams(location.search);
+      const accessToken = params.get('access_token');
+      const refreshToken = params.get('refresh_token');
+      const errorParam = params.get('error');
 
-    if (errorParam) {
-      setError(`Authentication failed: ${errorParam}`);
-      setTimeout(() => navigate('/login'), 5000);
-      return;
-    }
-
-    if (accessToken) {
-      localStorage.setItem('accessToken', accessToken);
-      if (refreshToken) {
-        localStorage.setItem('refreshToken', refreshToken);
+      if (errorParam) {
+        setError(`Authentication failed: ${errorParam}`);
+        setTimeout(() => navigate('/login'), 5000);
+        return;
       }
-      if (userParam) {
+
+      if (accessToken) {
         try {
-          const userData = JSON.parse(decodeURIComponent(userParam));
-          localStorage.setItem('user', JSON.stringify(userData));
+          await login(accessToken, refreshToken);
+          navigate('/dashboard');
         } catch (e) {
-          console.error("Failed to parse user data from URL", e);
+          console.error("Failed to log in after auth callback", e);
+          setError('Authentication failed. Please try logging in again.');
+          setTimeout(() => navigate('/login'), 5000);
         }
+      } else {
+        setError('Authorization token not found in URL.');
+        setTimeout(() => navigate('/login'), 5000);
       }
-      // Redirect to the dashboard
-      navigate('/dashboard');
-    } else {
-      setError('Authorization token not found in URL.');
-      setTimeout(() => navigate('/login'), 5000);
-    }
-  }, [location, navigate]);
+    };
+
+    handleAuth();
+  }, [location, navigate, login]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
