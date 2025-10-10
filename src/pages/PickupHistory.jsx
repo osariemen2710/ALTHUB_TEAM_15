@@ -12,7 +12,7 @@ const PickupHistory = () => {
     const fetchPickupHistory = async () => {
       try {
         setLoading(true);
-        const response = await apiFetch('https://binit-1fpv.onrender.com/pickup');
+        const response = await apiFetch('https://binit-1fpv.onrender.com/get_all_pickups');
         if (response.ok) {
           const data = await response.json();
           setPickups(Array.isArray(data) ? data : []);

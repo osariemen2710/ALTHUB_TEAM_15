@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, LayoutDashboard, Calendar, AlertTriangle, Plus, Menu, X } from 'lucide-react';
+import { Search, LayoutDashboard, Calendar, AlertTriangle, Plus, Menu, X, Settings } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../assets/Header.svg';
 import Logo from '../assets/binitLogo.svg';
@@ -36,13 +36,17 @@ const Sidebar =()=> {
       label: "Schedule Pickup",
       path: "/schedule"
     },
-    { 
-      icon: <FaQuestionCircle className="w-5 h-5" />,
-      label: "Report Illegal Dump",
-      path: "/report",
-
-    }
-  ];
+        {
+          icon: <FaQuestionCircle className="w-5 h-5" />,
+          label: "Report Illegal Dump",
+          path: "/report",
+    
+        },
+        {
+          icon: <Settings className="w-5 h-5" />,
+          label: "Settings",
+          path: "/settings",
+        }  ];
 
   const isPathActive = (itemPath) => {
     const currentPath = location.pathname;
