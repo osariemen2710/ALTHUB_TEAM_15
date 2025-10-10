@@ -1,60 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useUser } from '../context/UserContext';
+
 const AuthCallback = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { login } = useUser();
 
   useEffect(() => {
-    const exchangeCodeForToken = async (code) => {
-      try {
-        // ========================================================================
-        // TODO: Replace with your actual backend endpoint for code exchange
-        const response = await fetch('https://binit-1fpv.onrender.com/auth/google/callback', {
-        // ========================================================================
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ code }),
-        });
+    const handleAuth = async () => {
+      const params = new URLSearchParams(location.search);
+      const accessToken = params.get('access_token');
+      const refreshToken = params.get('refresh_token');
+      const errorParam = params.get('error');
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.detail || 'Failed to exchange code for token.');
-        }
+      if (errorParam) {
+        setError(`Authentication failed: ${errorParam}`);
+        setTimeout(() => navigate('/login'), 5000);
+        return;
+      }
 
-        const data = await response.json();
-
-        // Assuming the backend returns accessToken and refreshToken
-        if (data.access_token && data.refresh_token) {
-          localStorage.setItem('accessToken', data.access_token);
-          localStorage.setItem('refreshToken', data.refresh_token);
-          // Redirect to the dashboard or a protected route
+      if (accessToken) {
+        try {
+          await login(accessToken, refreshToken);
           navigate('/dashboard');
-        } else {
-          throw new Error('Tokens not provided by the backend.');
+        } catch (e) {
+          console.error("Failed to log in after auth callback", e);
+          setError('Authentication failed. Please try logging in again.');
+          setTimeout(() => navigate('/login'), 5000);
         }
-
-      } catch (err) {
-        console.error('Authentication error:', err);
-        setError('Authentication failed. Please try logging in again.');
-        // Optionally redirect to login page after a delay
+      } else {
+        setError('Authorization token not found in URL.');
         setTimeout(() => navigate('/login'), 5000);
       }
     };
 
-    const params = new URLSearchParams(location.search);
-    const code = params.get('code');
-
-    if (code) {
-      exchangeCodeForToken(code);
-    } else {
-      setError('Authorization code not found in URL.');
-      setTimeout(() => navigate('/login'), 5000);
-    }
-  }, [location, navigate]);
+    handleAuth();
+  }, [location, navigate, login]);
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
