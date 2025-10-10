@@ -10,6 +10,7 @@ const AuthCallback = () => {
     const params = new URLSearchParams(location.search);
     const accessToken = params.get('access_token');
     const refreshToken = params.get('refresh_token');
+    const userParam = params.get('user');
     const errorParam = params.get('error');
 
     if (errorParam) {
@@ -22,6 +23,14 @@ const AuthCallback = () => {
       localStorage.setItem('accessToken', accessToken);
       if (refreshToken) {
         localStorage.setItem('refreshToken', refreshToken);
+      }
+      if (userParam) {
+        try {
+          const userData = JSON.parse(decodeURIComponent(userParam));
+          localStorage.setItem('user', JSON.stringify(userData));
+        } catch (e) {
+          console.error("Failed to parse user data from URL", e);
+        }
       }
       // Redirect to the dashboard
       navigate('/dashboard');
