@@ -18,6 +18,7 @@ import NotificationPreferencesPage from "./pages/Notification.jsx";
 import IllegalDumping from "./components/illegalDumping";
 import Report from './components/report';
 import PaymentHistory from './pages/PaymentHistory';
+import PickupHistory from './pages/PickupHistory';
 import BinitPrivacyPolicy from './pages/BinitPrivacyPolicy';
 import AuthCallback from './pages/AuthCallback';
 
@@ -45,6 +46,7 @@ import AuthCallback from './pages/AuthCallback';
         <Route path="/notifications" element={<NotificationPreferencesPage/>} />
         <Route path="/history" element={<Report/>} />
         <Route path="/payment-history" element={<PaymentHistory />} />
+        <Route path="/pickup-history" element={<PickupHistory />} />
   <Route path="/privacy" element={<BinitPrivacyPolicy />} />
         
     </Routes>

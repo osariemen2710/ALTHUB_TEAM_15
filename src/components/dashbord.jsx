@@ -19,6 +19,38 @@ const StatCard = ({ title, value, unit, loading }) => (
   </div>
 );
 
+const processPickupData = (pickups) => {
+  const monthlyData = {};
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  for (const pickup of pickups) {
+    const date = new Date(pickup.created_at);
+    const monthKey = date.toISOString().substring(0, 7); // "YYYY-MM"
+
+    if (!monthlyData[monthKey]) {
+      monthlyData[monthKey] = {
+        month: monthNames[date.getMonth()],
+        organic: 0,
+        plastic: 0,
+        electronic: 0, // This key maps to the 'General' bar in the chart
+      };
+    }
+
+    const wasteType = pickup.waste_type.toLowerCase();
+
+    if (wasteType === 'organic') {
+      monthlyData[monthKey].organic += 1;
+    } else if (wasteType === 'plastic' || wasteType === 'recycling') {
+      monthlyData[monthKey].plastic += 1;
+    } else {
+      // Grouping general, mixed, electronic, etc. into one bar.
+      monthlyData[monthKey].electronic += 1;
+    }
+  }
+
+  return Object.values(monthlyData);
+};
+
 const Dashboard = () => {
   const { user } = useUser();
   const [stats, setStats] = useState(null);
@@ -31,12 +63,51 @@ const Dashboard = () => {
       try {
         setLoading(true);
         const response = await apiFetch('https://binit-1fpv.onrender.com/dashboard/stats');
+        
         if (response.ok) {
           const data = await response.json();
-          setStats(data);
-        } else {
-          console.error("Failed to fetch dashboard stats");
+          // Check if data is considered valid/not empty
+          if (data && data.monthly_waste_data && data.monthly_waste_data.length > 0) {
+            setStats(data);
+            return;
+          }
         }
+        
+        // Fallback if the primary endpoint fails or returns empty data
+        console.log("Primary stats endpoint failed or is empty. Using fallback.");
+        const [pickupResponse, reportResponse] = await Promise.all([
+          apiFetch('https://binit-1fpv.onrender.com/pickup/'),
+          apiFetch('https://binit-1fpv.onrender.com/report')
+        ]);
+
+        let pickups = [];
+        if (pickupResponse.ok) {
+          const pickupData = await pickupResponse.json();
+          pickups = Array.isArray(pickupData) ? pickupData : [pickupData];
+        } else {
+          console.error("Failed to fetch fallback pickup stats");
+        }
+
+        let total_illegal_reports = 0;
+        let total_coins_earned = 0;
+        if (reportResponse.ok) {
+          const reportData = await reportResponse.json();
+          if (Array.isArray(reportData)) {
+            total_illegal_reports = reportData.length;
+            total_coins_earned = Math.floor(reportData.length / 2);
+          }
+        } else {
+          console.error("Failed to fetch fallback report stats");
+        }
+
+        const fallbackStats = {
+          total_waste_disposed_kg: pickups.length, // Total number of pickups
+          total_illegal_reports,
+          total_coins_earned,
+          monthly_waste_data: processPickupData(pickups),
+        };
+        setStats(fallbackStats);
+
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
       } finally {
