@@ -179,7 +179,7 @@ const ScheduleSuccess = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar />
       
       <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
@@ -187,72 +187,72 @@ const ScheduleSuccess = () => {
           <ConnectingLines currentStep={5} onLineClick={handleLineClick} />
 
           <div className="text-center mb-8 mt-8">
-            <p className="text-sm text-gray-500 mb-2">Step 5 of 5: Schedule Confirmation</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Step 5 of 5: Schedule Confirmation</p>
           </div>
 
           <div className="text-center mb-12">
             <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
               <Check className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
               Schedule created successfully
             </h2>
-            <p className="text-gray-600 mb-8">
+            <p className="text-gray-600 dark:text-gray-400 mb-8">
               Your recurring waste pickup is now active
             </p>
             
-            <div className="bg-gray-100 rounded-lg p-4 inline-block">
-              <p className="text-sm text-gray-700">
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 inline-block">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 Next Pickup: <span className="font-medium">{nextPickup}</span>
               </p>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 max-w-2xl mx-auto">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 max-w-2xl mx-auto">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 text-center">
               Schedule details
             </h3>
             
             <div className="space-y-4">
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Schedule Name:</span>
-                <span className="text-gray-800">{scheduleName}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Schedule Name:</span>
+                <span className="text-gray-800 dark:text-white">{scheduleName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Waste Type:</span>
-                <span className="text-gray-800">{wasteType || 'N/A'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Waste Type:</span>
+                <span className="text-gray-800 dark:text-white">{wasteType || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Expected Volume:</span>
-                <span className="text-gray-800">{volume || 'N/A'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Expected Volume:</span>
+                <span className="text-gray-800 dark:text-white">{volume || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Location:</span>
-                <span className="text-gray-800">{address || 'N/A'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Location:</span>
+                <span className="text-gray-800 dark:text-white">{address || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Frequency:</span>
-                <span className="text-gray-800">{frequency || 'N/A'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Frequency:</span>
+                <span className="text-gray-800 dark:text-white">{frequency || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Time Window:</span>
-                <span className="text-gray-800">{timeWindow || 'N/A'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Time Window:</span>
+                <span className="text-gray-800 dark:text-white">{timeWindow || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Start Date:</span>
-                <span className="text-gray-800">{startDate || 'N/A'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Start Date:</span>
+                <span className="text-gray-800 dark:text-white">{startDate || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Special Requirements:</span>
-                <span className="text-gray-800">{specialRequirements?.join(', ') || 'None'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Special Requirements:</span>
+                <span className="text-gray-800 dark:text-white">{specialRequirements?.join(', ') || 'None'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Service Provider:</span>
-                <span className="text-gray-800">{company?.name || 'N/A'}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Service Provider:</span>
+                <span className="text-gray-800 dark:text-white">{company?.name || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600 font-medium">Monthly Cost:</span>
-                <span className="text-gray-800 font-bold">{monthlyCost}</span>
+                <span className="text-gray-600 dark:text-gray-400 font-medium">Monthly Cost:</span>
+                <span className="text-gray-800 dark:text-white font-bold">{monthlyCost}</span>
               </div>
             </div>
           </div>

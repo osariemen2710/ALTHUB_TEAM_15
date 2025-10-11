@@ -48,6 +48,7 @@ import AuthCallback from './pages/AuthCallback';
         <Route path="/history" element={<Report/>} />
         <Route path="/payment-history" element={<PaymentHistory />} />
         <Route path="/settings" element={<AccountSettings />} />
+        <Route path="/pickup-history" element={<PickupHistory />} />
   <Route path="/privacy" element={<BinitPrivacyPolicy />} />
         
     </Routes>

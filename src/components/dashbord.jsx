@@ -6,14 +6,14 @@ import apiFetch from "../lib/api";
 import { useNavigate } from "react-router-dom";
 
 const StatCard = ({ title, value, unit, loading }) => (
-  <div className="bg-white p-4 md:p-6 rounded-xl border border-gray-200">
-    <p className="text-sm text-gray-500 mb-2">{title}</p>
+  <div className="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{title}</p>
     {loading ? (
-      <div className="h-8 w-24 bg-gray-200 rounded-md animate-pulse"></div>
+      <div className="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
     ) : (
-      <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
+      <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-100">
         {value}
-        {unit && <span className="text-lg font-medium text-gray-500 ml-2">{unit}</span>}
+        {unit && <span className="text-lg font-medium text-gray-500 dark:text-gray-400 ml-2">{unit}</span>}
       </h2>
     )}
   </div>
@@ -86,7 +86,7 @@ const Dashboard = () => {
         if (response.ok) {
           const data = await response.json();
           // Check if data is considered valid/not empty
-          if (data && data.monthly_waste_data && data.monthly_waste_data.length > 0) {
+          if (data && !isDashboardDataEmpty(data)) { // Modified condition
             setStats(data);
             return;
           }
@@ -148,14 +148,14 @@ const Dashboard = () => {
   }, [stats]);
 
   return (
-    <div className="flex flex-col md:flex-row h-screen overflow-x-hidden">
+    <div className="flex flex-col md:flex-row h-screen overflow-x-hidden bg-gray-50 dark:bg-gray-900">
       <Sidebar />
-      <div className="flex-1 pt-20 p-4 md:p-8 overflow-y-auto w-full h-screen bg-gray-50">
+      <div className="flex-1 pt-20 p-4 md:p-8 overflow-y-auto w-full h-screen">
         <main className="p-0">
           <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-8">
             <div>
-              <h2 className="text-2xl text-gray-800 font-medium mb-1">Welcome back, {firstName || 'User'}</h2>
-              <p className="text-base text-gray-600 max-w-2xl">
+              <h2 className="text-2xl text-gray-800 dark:text-gray-100 font-medium mb-1">Welcome back, {firstName || 'User'}</h2>
+              <p className="text-base text-gray-600 dark:text-gray-300 max-w-2xl">
                 Track your impact, monitor community reports, and measure how your clean-up efforts are transforming your environment
               </p>
             </div>
@@ -170,17 +170,17 @@ const Dashboard = () => {
             <StatCard title="Coins Earned" value={stats?.total_coins_earned ?? 0} unit="coins" loading={loading} />
           </div>
 
-          <div className="bg-white p-6 rounded-xl border border-gray-200">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
             <div className="flex justify-between items-center mb-5">
-              <h3 className="text-lg font-semibold text-gray-800">Waste Disposal Trends Overtime</h3>
-              <select defaultValue="2025" className="p-2 rounded-md border border-gray-200 bg-white text-sm">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Waste Disposal Trends Overtime</h3>
+              <select defaultValue="2025" className="p-2 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm dark:text-gray-100">
                 <option value="2025">2025</option>
                 <option value="2024">2024</option>
               </select>
             </div>
             <div style={{ width: '100%', height: 300 }}>
               {loading ? (
-                <div className="w-full h-full bg-gray-200 rounded-md animate-pulse"></div>
+                <div className="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>

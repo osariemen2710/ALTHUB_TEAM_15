@@ -124,3 +124,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Make some common utility classes adapt to the theme variables for better consistency */
+.bg-white {
+  background-color: var(--card) !important;
+}
+.text-gray-900 {
+  color: var(--foreground) !important;
+}
+.text-gray-600 {
+  color: var(--muted-foreground) !important;
+}
+.border-gray-200 {
+  border-color: var(--border) !important;
+}
+.bg-gray-50 {
+  background-color: var(--popover) !important;
+}
+.bg-gray-700 {
+  background-color: var(--card) !important;
+}
+.dark .bg-white {
+  background-color: var(--card) !important;
+}
