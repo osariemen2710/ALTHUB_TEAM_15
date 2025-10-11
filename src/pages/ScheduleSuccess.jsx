@@ -95,11 +95,11 @@ const ScheduleSuccess = () => {
     const formatFrequency = (freq) => {
       if (!freq) return 'daily';
       const lowerCaseFreq = freq.toLowerCase();
-      if (lowerCaseFreq.includes('bi-weekly')) return 'bi_weekly';
       if (lowerCaseFreq.includes('one-time')) return 'one_time';
-      if (lowerCaseFreq.includes('daily')) return 'daily';
+      if (lowerCaseFreq.includes('bi-weekly')) return 'bi_weekly';
       if (lowerCaseFreq.includes('weekly')) return 'weekly';
       if (lowerCaseFreq.includes('monthly')) return 'monthly';
+      if (lowerCaseFreq.includes('daily')) return 'daily';
       return 'daily';
     };
 
