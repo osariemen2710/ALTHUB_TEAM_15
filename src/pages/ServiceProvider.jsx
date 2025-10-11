@@ -117,7 +117,7 @@ const ServiceProvider = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
       <Sidebar />
       <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
         <Toaster />
@@ -125,18 +125,18 @@ const ServiceProvider = () => {
           <ConnectingLines currentStep={4} onLineClick={handleLineClick} />
 
           <div className="mt-12">
-            <p className="text-sm text-gray-500 mb-2">Step 4 of 5</p>
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Step 4 of 5</p>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
               Choose Service Provider
             </h2>
 
-            <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg text-gray-800">
+                  <h3 className="font-semibold text-lg text-gray-800 dark:text-gray-100">
                     Select a collector
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Choose a provider for your recurring waste pickup.
                   </p>
                 </div>
@@ -153,7 +153,7 @@ const ServiceProvider = () => {
                 <select
                   value={selectedCompany}
                   onChange={(e) => setSelectedCompany(e.target.value)}
-                  className="border rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-green-500 border-gray-300"
+                  className="border rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                 >
                   <option value="">-- Select a waste company --</option>
                   {Object.entries(companies).map(([key, company]) => (
@@ -165,10 +165,10 @@ const ServiceProvider = () => {
               </div>
 
               {selectedCompany && (
-                <div className="mt-6 border-t border-gray-200 pt-6">
+                <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                         {companies[selectedCompany].name}
                       </h4>
                       <p className="text-2xl font-bold text-green-600 mt-1">
@@ -177,50 +177,50 @@ const ServiceProvider = () => {
                     </div>
                     <div className="flex items-center gap-2 text-yellow-500">
                       <Star className="w-5 h-5 fill-current" />
-                      <span className="font-bold text-gray-800">{companies[selectedCompany].rating}</span>
-                      <span className="text-sm text-gray-500">({companies[selectedCompany].reviews} reviews)</span>
+                      <span className="font-bold text-gray-800 dark:text-gray-100">{companies[selectedCompany].rating}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">({companies[selectedCompany].reviews} reviews)</span>
                     </div>
                   </div>
                   
                   <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-6 text-sm">
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="font-semibold text-gray-600">Distance</p>
-                      <p className="text-gray-800">{companies[selectedCompany].distance}</p>
+                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                      <p className="font-semibold text-gray-600 dark:text-gray-300">Distance</p>
+                      <p className="text-gray-800 dark:text-gray-100">{companies[selectedCompany].distance}</p>
                     </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="font-semibold text-gray-600">Experience</p>
-                      <p className="text-gray-800">{companies[selectedCompany].experience}</p>
+                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                      <p className="font-semibold text-gray-600 dark:text-gray-300">Experience</p>
+                      <p className="text-gray-800 dark:text-gray-100">{companies[selectedCompany].experience}</p>
                     </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="font-semibold text-gray-600">ETA</p>
-                      <p className="text-gray-800">{companies[selectedCompany].eta}</p>
+                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                      <p className="font-semibold text-gray-600 dark:text-gray-300">ETA</p>
+                      <p className="text-gray-800 dark:text-gray-100">{companies[selectedCompany].eta}</p>
                     </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="font-semibold text-gray-600">Vehicle</p>
-                      <p className="text-gray-800">{companies[selectedCompany].vehicle}</p>
+                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                      <p className="font-semibold text-gray-600 dark:text-gray-300">Vehicle</p>
+                      <p className="text-gray-800 dark:text-gray-100">{companies[selectedCompany].vehicle}</p>
                     </div>
-                    <div className="bg-gray-50 p-4 rounded-lg col-span-2 sm:col-span-1">
-                      <p className="font-semibold text-gray-600">Specializes In</p>
-                      <p className="text-gray-800">{companies[selectedCompany].specializes}</p>
+                    <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg col-span-2 sm:col-span-1">
+                      <p className="font-semibold text-gray-600 dark:text-gray-300">Specializes In</p>
+                      <p className="text-gray-800 dark:text-gray-100">{companies[selectedCompany].specializes}</p>
                     </div>
                   </div>
 
                   <div className="mt-8 flex flex-col sm:flex-row gap-3">
                     <button
                       onClick={handleViewProfile}
-                      className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="w-full sm:w-auto flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                     >
                       View Profile
                     </button>
                     <button
                       onClick={() => toast.info("No customer reviews yet.")}
-                      className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="w-full sm:w-auto flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                     >
                       Customer Reviews
                     </button>
                     <button
                       onClick={() => toast.info("Messaging is not available yet.")}
-                      className="w-full sm:w-auto flex-1 bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="w-full sm:w-auto flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                     >
                       Message
                     </button>
@@ -233,7 +233,7 @@ const ServiceProvider = () => {
           <div className="mt-12 flex justify-between">
             <button
               onClick={() => navigate("/special")}
-              className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg flex items-center gap-2 hover:bg-gray-300 transition-colors"
+              className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 font-semibold py-3 px-6 rounded-lg flex items-center gap-2 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
               <span>Back</span>

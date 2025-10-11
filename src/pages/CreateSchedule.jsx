@@ -44,16 +44,16 @@ const CreateSchedule = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50 overflow-x-hidden">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
       <Sidebar />
       <main className="flex-1 pt-20 p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                 Create Regular Pickup Schedule
               </h1>
-              <p className="text-gray-600 text-base">
+              <p className="text-gray-600 dark:text-gray-300 text-base">
                 Set up recurring waste collections that fit your routine.
               </p>
             </div>
@@ -68,10 +68,10 @@ const CreateSchedule = () => {
           <ConnectingLines currentStep={1} onLineClick={handleLineClick} />
 
           <div className="mt-12">
-            <p className="text-sm text-gray-500 mb-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               Step 1 of 5
             </p>
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
               Collection Frequency
             </h2>
             <CardGrid onCardClick={handleCardClick} />

@@ -101,42 +101,42 @@ const Report = () => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar />
       <main className="flex-1 pt-20 p-4 sm:p-6 md:p-8 lg:p-12 overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <button
               onClick={() => navigate('/report')}
-              className="mr-4 text-gray-500 hover:text-gray-700"
+              className="mr-4 text-gray-500 hover:text-gray-700 dark:text-gray-300"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
               </svg>
             </button>
-            <h1 className="text-2xl font-bold text-gray-900">Report History</h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Report History</h1>
           </div>
         </div>
 
-        <p className="text-gray-600 mb-8">
+        <p className="text-gray-600 dark:text-gray-400 mb-8">
           See all your past reports, pickups, and clean-up activities – and how they’ve contributed to a cleaner community.
         </p>
 
         {/* Mobile View - Cards */}
         <div className="md:hidden space-y-4">
           {loading ? renderSkeletonCards() : reports.map((report) => (
-            <div key={report.id} className="bg-white p-4 rounded-lg shadow">
+            <div key={report.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-sm font-medium text-gray-900">#{report.id.slice(-6)}</p>
-                  <p className="text-sm text-gray-500">{report.location}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">#{report.id.slice(-6)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{report.location}</p>
                 </div>
                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(report.status)}`}>
                   {report.status}
                 </span>
               </div>
               <div className="mt-4 flex justify-between items-end">
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-500 dark:text-gray-400">
                   <p>{report.issue_type}</p>
                   <p>{formatReportTime(report.created_at)}</p>
                 </div>
@@ -152,26 +152,26 @@ const Report = () => {
         </div>
 
         {/* Desktop View - Table */}
-        <div className="hidden md:block bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="hidden md:block bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
           <div className="min-w-full overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Report ID</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waste Type</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Media</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Report Time</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Report ID</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Waste Type</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Location</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Media</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Report Time</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {loading ? renderSkeletonTableRows() : reports.map((report) => (
                   <tr key={report.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{report.id.slice(-6)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.issue_type}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.location}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">#{report.id.slice(-6)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{report.issue_type}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{report.location}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       <img
                         src={report.image_path}
                         alt="Report media"
@@ -184,7 +184,7 @@ const Report = () => {
                         {report.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatReportTime(report.created_at)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{formatReportTime(report.created_at)}</td>
                   </tr>
                 ))}
               </tbody>

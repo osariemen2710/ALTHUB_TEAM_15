@@ -150,7 +150,7 @@ const PaymentBillingPage = () => {
   const upcomingPickups = calculateUpcomingPickups(startDate, frequency, timeWindow);
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar />
       <Toaster richColors position="top-center" />
       
@@ -159,74 +159,74 @@ const PaymentBillingPage = () => {
           <ConnectingLines currentStep={5} onLineClick={handleLineClick} />
 
           <div className="text-center mb-8 mt-8">
-            <p className="text-sm text-gray-500 mb-2">Step 5 of 5: Payment & Billing</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Step 5 of 5: Payment & Billing</p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border-2 border-blue-400 p-8 max-w-3xl mx-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border-2 border-blue-400 dark:border-blue-500 p-8 max-w-3xl mx-auto">
             
             <div className="mb-8">
-              <h3 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">
+              <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
                 Upcoming Pickups
               </h3>
               <div className="relative">
-                <select className="w-full p-3 border border-gray-300 rounded-md bg-white text-gray-700 appearance-none pr-10">
+                <select className="w-full p-3 border border-gray-300 rounded-md bg-white dark:bg-gray-700 text-gray-700 dark:text-white appearance-none pr-10 dark:border-gray-600">
                   {upcomingPickups.map((pickup, index) => (
                     <option key={index}>{pickup}</option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-400 pointer-events-none" />
               </div>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-800 mb-6 border-b border-gray-200 pb-2">
+              <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
                 Billing Information
               </h3>
               
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">Monthly Cost:</span>
-                  <span className="text-gray-900 font-semibold">{formatCurrency(monthlyCostValue)}</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">Monthly Cost:</span>
+                  <span className="text-gray-900 dark:text-white font-semibold">{formatCurrency(monthlyCostValue)}</span>
                 </div>
                 
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">New Customer Discount:</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">New Customer Discount:</span>
                   <span className="text-green-600 font-semibold">-{formatCurrency(newCustomerDiscount)}</span>
                 </div>
                 
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-700 font-medium">First Payment:</span>
-                  <span className="text-gray-900 font-semibold">{formatCurrency(firstPayment)}</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">First Payment:</span>
+                  <span className="text-gray-900 dark:text-white font-semibold">{formatCurrency(firstPayment)}</span>
                 </div>
                 
-                <div className="flex justify-between items-center py-2 border-t border-gray-200 pt-4">
-                  <span className="text-gray-700 font-medium">Next Billing:</span>
-                  <span className="text-gray-900 font-semibold">August 10, 2025</span>
+                <div className="flex justify-between items-center py-2 border-t border-gray-200 dark:border-gray-700 pt-4">
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">Next Billing:</span>
+                  <span className="text-gray-900 dark:text-white font-semibold">August 10, 2025</span>
                 </div>
               </div>
 
               <div className="mt-8">
-                <h3 className="text-lg font-medium text-gray-800 mb-4">
+                <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">
                   Enter Card Details
                 </h3>
                 <form className="space-y-4">
                   <div>
-                    <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                    <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 dark:text-white mb-1">Card Number</label>
                     <div className="relative">
-                      <input type="text" id="cardNumber" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" placeholder="0000 0000 0000 0000" />
+                      <input type="text" id="cardNumber" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="0000 0000 0000 0000" />
                       <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <CreditCard className="h-5 w-5 text-gray-400" />
+                        <CreditCard className="h-5 w-5 text-gray-400 dark:text-gray-400" />
                       </div>
                     </div>
                   </div>
                   <div className="flex gap-4">
                     <div className="flex-1">
-                      <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                      <input type="text" id="expiryDate" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" placeholder="MM / YY" />
+                      <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 dark:text-white mb-1">Expiry Date</label>
+                      <input type="text" id="expiryDate" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="MM / YY" />
                     </div>
                     <div className="flex-1">
-                      <label htmlFor="cvc" className="block text-sm font-medium text-gray-700 mb-1">CVC</label>
-                      <input type="text" id="cvc" value={cvc} onChange={(e) => setCvc(e.target.value)} className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none" placeholder="123" />
+                      <label htmlFor="cvc" className="block text-sm font-medium text-gray-700 dark:text-white mb-1">CVC</label>
+                      <input type="text" id="cvc" value={cvc} onChange={(e) => setCvc(e.target.value)} className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="123" />
                     </div>
                   </div>
                 </form>

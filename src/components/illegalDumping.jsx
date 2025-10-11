@@ -156,13 +156,13 @@ const IllegalDumping = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 pt-20 p-4 overflow-y-auto w-full h-screen bg-gray-50">
+      <div className="flex-1 pt-20 p-4 overflow-y-auto w-full h-screen bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-800">
+            <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
               Report Illegal Bin Disposal
             </h1>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-600 dark:text-gray-300 mt-1">
               Spot an overflowing or improperly placed bin? Snap a photo, share the location, and help keep your community clean and safe.
             </p>
           </div>
@@ -202,7 +202,7 @@ const IllegalDumping = () => {
                   <input
                     type="text"
                     placeholder="Search location to report..."
-                    className="pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent w-full"
+                    className="pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent w-full dark:text-gray-100"
                   />
                     </StandaloneSearchBox>
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -225,18 +225,18 @@ const IllegalDumping = () => {
               </div>
 
               <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2">
-                <button className="bg-white p-2 rounded-lg shadow-md hover:bg-gray-100 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
+                <button className="bg-white dark:bg-gray-700 p-2 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                  <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
                 </button>
-                <button className="bg-white p-2 rounded-lg shadow-md hover:bg-gray-100 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
+                <button className="bg-white dark:bg-gray-700 p-2 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                  <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
                 </button>
               </div>
 
               {/* Instructional Overlay */}
               {!selectedPlace && !isModalOpen && (
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-white bg-opacity-90 rounded-lg shadow-lg text-center pointer-events-none">
-                  <p className="text-base font-semibold text-gray-700">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-white dark:bg-gray-800 bg-opacity-90 rounded-lg shadow-lg text-center pointer-events-none">
+                  <p className="text-base font-semibold text-gray-700 dark:text-gray-300">
                     Use the search bar to find and report a location.
                   </p>
                 </div>
@@ -249,15 +249,15 @@ const IllegalDumping = () => {
           </LoadScript>
           <Toaster />
           {isModalOpen && (
-            <div className="fixed inset-0  bg-opacity-30 flex justify-center items-center z-50">
-              <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-full max-w-md">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold text-gray-800">
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                     Capture Evidence
                   </h2>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 hover:text-gray-700 dark:text-gray-300"
                   >
                     <svg
                       className="h-6 w-6"
@@ -277,11 +277,11 @@ const IllegalDumping = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Waste Type*
                   </label>
                   <select
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
+                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     value={wasteType}
                     onChange={(e) => setWasteType(e.target.value)}
                   >
@@ -295,11 +295,11 @@ const IllegalDumping = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Upload Photo*
                   </label>
                   <div
-                    className="mt-1 flex justify-center items-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-gray-400 transition-colors"
+                    className="mt-1 flex justify-center items-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md cursor-pointer hover:border-gray-400 transition-colors"
                     onClick={() => fileInputRef.current.click()}
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
@@ -315,7 +315,7 @@ const IllegalDumping = () => {
                     />
                     <div className="space-y-1 text-center">
                       {uploadedFile ? (
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           File selected: <span className="font-medium">{uploadedFile.name}</span>
                         </p>
                       ) : (
@@ -334,27 +334,27 @@ const IllegalDumping = () => {
                               strokeLinejoin="round"
                             />
                           </svg>
-                          <div className="flex text-sm text-gray-600">
+                          <div className="flex text-sm text-gray-600 dark:text-gray-400">
                             <p className="font-medium text-green-600 hover:text-green-500">
                               Click to upload or drag and drop
                             </p>
                           </div>
                         </>
                       )}
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         SVG, PNG, JPG or GIF (max. 800x400px)
                       </p>
-                      <p className="text-xs text-gray-500">(Max 800KB file size)</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">(Max 800KB file size)</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Describe the issue*
                   </label>
                   <textarea
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     rows="3"
                     placeholder="Tell us what you see so we can act quickly."
                     value={description}
