@@ -233,8 +233,8 @@ const IllegalDumping = () => {
               zoom={12}
               options={mapOptions}
             >
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                <div className="relative flex-grow w-96">
+              <div className="absolute top-4 left-4 right-16 md:right-auto z-10 flex items-center gap-2">
+                <div className="relative flex-grow md:flex-grow-0 md:w-96">
                   <StandaloneSearchBox
                     onLoad={onLoadSearchBox}
                     onPlacesChanged={onPlacesChanged}
