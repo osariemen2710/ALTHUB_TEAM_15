@@ -28,7 +28,7 @@ const CardGrid = ({ onCardClick }) => {
       id: 2,
       title: "Weekly",
       description: "Pickup once a week",
-      amount: "₦2800",
+      amount: "₦2000",
       icon: Clock,
       gradient: "from-yellow-500 to-amber-600",
       badge: "Best Value"
@@ -37,7 +37,7 @@ const CardGrid = ({ onCardClick }) => {
       id: 3,
       title: "Biweekly",
       description: "Pickup every 2 weeks",
-      amount: "₦3400",
+      amount: "₦3600",
       icon: Calendar,
       gradient: "from-green-600 to-teal-600",
       badge: null
