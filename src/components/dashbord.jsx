@@ -7,28 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { TrendingUp, AlertCircle, Coins, Calendar, History, Info, LayoutDashboard } from 'lucide-react';
 
 
-const StatCard = ({ title, value, unit, loading, icon: Icon, gradient, tooltip }) => (
+const StatCard = ({ title, value, unit, loading, icon: Icon, gradient, iconColor, tooltip }) => (
   <div className="group relative bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-    <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 ${gradient}`}></div>
+    <div className={`absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300 ${gradient}`}></div>
     <div className="relative z-10">
       <div className="flex items-center justify-between mb-3">
         <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
-        <div className="flex items-center gap-2">
-          {tooltip && (
-            <div className="relative group/tooltip">
-              <Info className="w-4 h-4 text-gray-400 dark:text-gray-500 cursor-help" />
-              <div className="absolute bottom-full right-0 mb-2 w-64 px-3 py-2 text-xs font-medium text-white bg-gray-900 dark:bg-gray-700 rounded-lg shadow-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-300 pointer-events-none z-50">
-                {tooltip}
-                <div className="absolute top-full right-4 -mt-1 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
-              </div>
-            </div>
-          )}
-          {Icon && (
-            <div className={`p-2 rounded-lg ${gradient} bg-opacity-10`}>
-              <Icon className="w-5 h-5 text-green-600 dark:text-green-400" />
-            </div>
-          )}
-        </div>
+        {Icon && (
+          <div className={`p-2 rounded-lg ${gradient} bg-opacity-10`}>
+            <Icon className={`w-5 h-5 ${iconColor || 'text-green-600 dark:text-green-400'}`} />
+          </div>
+        )}
       </div>
       {loading ? (
         <div className="h-9 w-28 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg animate-pulse"></div>
@@ -41,6 +30,11 @@ const StatCard = ({ title, value, unit, loading, icon: Icon, gradient, tooltip }
         </div>
       )}
     </div>
+    {tooltip && (
+      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs px-3 py-1.5 text-sm font-medium text-green-700 bg-white dark:bg-black dark:text-green-400 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+        {tooltip}
+      </div>
+    )}
   </div>
 );
 
@@ -214,6 +208,7 @@ const Dashboard = () => {
               loading={loading}
               icon={AlertCircle}
               gradient="bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900 dark:to-amber-800"
+              iconColor="text-amber-600 dark:text-amber-400"
             />
             <StatCard 
               title="Coins Earned" 
@@ -222,6 +217,7 @@ const Dashboard = () => {
               loading={loading}
               icon={Coins}
               gradient="bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-900 dark:to-yellow-800"
+              iconColor="text-yellow-600 dark:text-yellow-400"
               tooltip="Coins can be used as discount for your pickup payment"
             />
           </div>
@@ -244,14 +240,14 @@ const Dashboard = () => {
             </div>
             <div style={{ width: '100%', height: 300 }}>
               {loading ? (
-                <div className="w-full h-full bg-gray-200 rounded-md animate-pulse"></div>
+                <div className="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip cursor={{ fill: 'transparent' }} />
                     <Legend />
                     <Bar dataKey="General" stackId="a" fill="#A5D6A7" />
                     <Bar dataKey="Organic" stackId="a" fill="#4CAF50" />
