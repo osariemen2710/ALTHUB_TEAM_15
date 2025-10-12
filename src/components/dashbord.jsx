@@ -8,8 +8,8 @@ import { TrendingUp, AlertCircle, Coins, Calendar, History, Info, LayoutDashboar
 
 
 const StatCard = ({ title, value, unit, loading, icon: Icon, gradient, iconColor, tooltip }) => (
-  <div className="group relative bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-    <div className={`absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300 ${gradient}`}></div>
+  <div className="group relative bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+    <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 ${gradient}`}></div>
     <div className="relative z-10">
       <div className="flex items-center justify-between mb-3">
         <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
@@ -31,7 +31,7 @@ const StatCard = ({ title, value, unit, loading, icon: Icon, gradient, iconColor
       )}
     </div>
     {tooltip && (
-      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs px-3 py-1.5 text-sm font-medium text-green-700 bg-white dark:bg-black dark:text-green-400 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs px-3 py-1.5 text-sm font-medium text-green-700 bg-white dark:bg-black dark:text-green-400 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20">
         {tooltip}
       </div>
     )}
